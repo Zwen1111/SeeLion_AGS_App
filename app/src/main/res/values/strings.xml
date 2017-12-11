@@ -1,5 +1,13 @@
 <resources>
     <string name="app_name">SeeLion</string>
     <string name="title_activity_route">Map</string>
-    <string name="detail_point_default">Something went wrong</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Help">Help</string>
+    <string name="Ok">Ok</string>
+    <string name="Error">Error</string>
+    <string name="Arrived">You have arrived at you destination</string>
+    <string name="Confirm">Confirm</string>
+    <string name="Deviation">You have deviated from the route, \n please return to the route</string>
 </resources>
