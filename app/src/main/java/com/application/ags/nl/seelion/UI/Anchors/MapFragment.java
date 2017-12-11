@@ -1,13 +1,9 @@
 package com.application.ags.nl.seelion.UI.Anchors;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-import com.application.ags.nl.seelion.Data.BlindWallsDataGet;
-import com.application.ags.nl.seelion.Data.HistorKmDataGet;
-import com.application.ags.nl.seelion.Data.SqlConnect;
 import com.application.ags.nl.seelion.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,24 +16,17 @@ public class MapFragment extends FragmentActivity implements OnMapReadyCallback 
 
     private GoogleMap mMap;
 
-    public static RequestQueue requestQueue;
-    public static SqlConnect sqlConnect;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_map);
+       setContentView(R.layout.fragment_map);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        //SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        //        .findFragmentById(R.id.map);
+        //mapFragment.getMapAsync(this);
+       Intent i = new Intent(this, LanguageSelectActivity.class);
+       startActivity(i);
 
-        sqlConnect = new SqlConnect(this);
-
-        requestQueue = Volley.newRequestQueue(this);
-
-        //BlindWallsDataGet blindWallsDataGet = new BlindWallsDataGet();
-        HistorKmDataGet historKmDataGet = new HistorKmDataGet(this);
     }
 
 
