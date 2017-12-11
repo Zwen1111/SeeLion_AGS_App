@@ -8,6 +8,7 @@
          location permissions for the 'MyLocation' functionality. 
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:allowBackup="true"
@@ -30,7 +31,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".UI.Anchors.LanguageSelectActivity"
+            android:name=".UI.Anchors.MapFragment"
             android:label="@string/title_activity_route">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,12 +39,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UI.Anchors.MapFragment" />
-        <activity android:name=".UI.Anchors.RouteSelectActivity" />
-        <activity android:name=".UI.popups.Error" />
-        <activity android:name=".UI.popups.Help" />
-        <activity android:name=".UI.Notifications.Arrival" />
-        <activity android:name=".UI.Notifications.Deviation"></activity>
+        <activity android:name=".UI.Anchors.LanguageSelectActivity" />
+        <activity android:name=".UI.Anchors.RouteSelectActivity"></activity>
     </application>
 
 </manifest>
