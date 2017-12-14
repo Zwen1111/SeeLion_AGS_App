@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
+import com.application.ags.nl.seelion.Hardware.Notification;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 
@@ -33,7 +34,8 @@ public class GeofenceTransitionIntentService extends IntentService {
             // multiple geofences.
             List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
 
-            //Todo send notification
+            Notification notification = new Notification();
+            notification.notifyWithBoth();
         } else {
             // Todo error.
         }
