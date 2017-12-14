@@ -1,9 +1,8 @@
 package com.application.ags.nl.seelion.UI.Anchors;
 
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -33,21 +31,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         sqlConnect = new SqlConnect(getContext());
 
         requestQueue = Volley.newRequestQueue(getContext());
-
         //BlindWallsDataGet blindWallsDataGet = new BlindWallsDataGet();
-        HistorKmDataGet historKmDataGet = new HistorKmDataGet(getActivity());
+//        HistorKmDataGet historKmDataGet = new HistorKmDataGet(getActivity());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.i("yo", "yo");
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         mapView = view.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
+        Log.i("yo", "" + view.getId());
+        if (mapView != null) {
 
+        }
         mapView.onResume(); // needed to get the map to display immediately
 
         try {
@@ -57,7 +57,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
 
         mapView.getMapAsync(this);
-
         return view;
     }
 
@@ -70,13 +69,24 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
-    @Override
+  /*  @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.i("String", ":");
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }*/
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.addMarker(new MarkerOptions().position(new LatLng(-33.865143, 151.209900)));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(-34.865143, 151.209900)));
+
+       
     }
 }
