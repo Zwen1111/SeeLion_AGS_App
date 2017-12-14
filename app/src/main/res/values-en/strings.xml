@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SeeLion</string>
+    <string name="select_language">select language</string>
+    <string name="continue_button_language_activity">continue</string>
+    <string name="language_activity_select">select</string>
+</resources>
