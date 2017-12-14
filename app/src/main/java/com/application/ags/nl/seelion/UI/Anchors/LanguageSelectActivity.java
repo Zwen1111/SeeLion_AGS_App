@@ -12,6 +12,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+import com.application.ags.nl.seelion.Data.BlindWallsDataGet;
+import com.application.ags.nl.seelion.Data.HistorKmDataGet;
+import com.application.ags.nl.seelion.Data.SqlConnect;
+import com.application.ags.nl.seelion.Logic.Map;
+import com.application.ags.nl.seelion.Logic.RouteCalculation;
+import com.application.ags.nl.seelion.Logic.SqlRequest;
 import com.application.ags.nl.seelion.R;
 
 import java.util.Locale;
@@ -22,12 +30,23 @@ public class LanguageSelectActivity extends AppCompatActivity {
     private String currentLanguage;
     private Button selectButton;
 
+    public static RequestQueue requestQueue;
+    public static SqlConnect sqlConnect;
+
     /* this class is used for choosing the language, this is the first activity that will be launched.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_language_select);
+
+        sqlConnect = new SqlConnect(this);
+        requestQueue = Volley.newRequestQueue(this);
+
+        //Map.generateBlindWallsMap();
+        Map.generateHistorKmMap(this);
+        new RouteCalculation(new SqlRequest().getHistorKmPois());
+
         languageSpinner = findViewById(R.id.language_select_activty_select_language_comboBox);
         String[] spinnerArray = new String[]{"english", "nederlands"};
         ArrayAdapter<String> spinnerApdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, spinnerArray);

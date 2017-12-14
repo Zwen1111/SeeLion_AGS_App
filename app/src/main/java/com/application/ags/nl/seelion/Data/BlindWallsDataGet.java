@@ -5,6 +5,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.application.ags.nl.seelion.UI.Anchors.LanguageSelectActivity;
 import com.application.ags.nl.seelion.UI.Anchors.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -25,7 +26,7 @@ public class BlindWallsDataGet implements IRoute {
     private SqlConnect sqlConnect;
 
     public BlindWallsDataGet(){
-        sqlConnect = MapFragment.sqlConnect;
+        sqlConnect = LanguageSelectActivity.sqlConnect;
 
         allPois = new ArrayList<>();
 
@@ -33,9 +34,8 @@ public class BlindWallsDataGet implements IRoute {
         generateRoute(url);
     }
 
-    @Override
     public void generateRoute(String url) {
-        RequestQueue requestQueue = MapFragment.requestQueue;
+        RequestQueue requestQueue = LanguageSelectActivity.requestQueue;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, onSuccess, onError);
 
@@ -59,6 +59,7 @@ public class BlindWallsDataGet implements IRoute {
             for (int i = 0; i < array.length(); i++) {
                 JSONObject object = array.getJSONObject(i);
 
+                int id = object.getInt("id");
                 String title = object.getString("title");
 
                 String description = object.getJSONObject("custom_fields").getJSONArray("blokken_3_tekstblok").getString(0);
@@ -79,7 +80,7 @@ public class BlindWallsDataGet implements IRoute {
                 Double lng = Double.parseDouble(lngString);
                 LatLng latLng = new LatLng(lat, lng);
 
-                PointOfInterest pointOfInterest = new PointOfInterest(title, description, latLng);
+                PointOfInterest pointOfInterest = new PointOfInterest(id, title, description, latLng);
                 allPois.add(pointOfInterest);
                 sqlConnect.addBlindWall(pointOfInterest);
             }

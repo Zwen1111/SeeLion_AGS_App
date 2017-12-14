@@ -12,6 +12,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.application.ags.nl.seelion.Data.HistorKmDataGet;
 import com.application.ags.nl.seelion.Data.SqlConnect;
+import com.application.ags.nl.seelion.Logic.Map;
 import com.application.ags.nl.seelion.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -27,19 +28,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private MapView mapView;
     private GoogleMap mMap;
 
-    public static RequestQueue requestQueue;
-    public static SqlConnect sqlConnect;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        sqlConnect = new SqlConnect(getContext());
-
-        requestQueue = Volley.newRequestQueue(getContext());
-
-        //BlindWallsDataGet blindWallsDataGet = new BlindWallsDataGet();
-        HistorKmDataGet historKmDataGet = new HistorKmDataGet(getActivity());
     }
 
     @Override
