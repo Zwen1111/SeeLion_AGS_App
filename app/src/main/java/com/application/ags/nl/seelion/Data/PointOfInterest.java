@@ -8,11 +8,13 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class PointOfInterest {
 
+    private int id;
     private String title;
     private String description;
     private LatLng location;
 
-    public PointOfInterest(String title, String description, LatLng location){
+    public PointOfInterest(int id, String title, String description, LatLng location){
+        this.id = id;
         this.title = title;
         this.description = description;
         this.location = location;
@@ -28,5 +30,9 @@ public class PointOfInterest {
 
     public LatLng getLocation() {
         return location;
+    }
+
+    public int getId() {
+        return id;
     }
 }

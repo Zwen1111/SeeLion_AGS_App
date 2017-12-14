@@ -26,7 +26,7 @@ public class RouteAdapter implements View.OnClickListener {
         this.routeActivity = routeActivity;
 
         darkButtonColor = ContextCompat.getColor(routeActivity, R.color.common_google_signin_btn_text_dark_disabled);
-        lightButtonColor = ContextCompat.getColor(routeActivity, R.color.imageButtonColor);
+        //lightButtonColor = ContextCompat.getColor(routeActivity, R.color.imageButtonColor);
 
         routeActivity.routePointButton.setOnClickListener(this);
         routeActivity.mapButton.setOnClickListener(this);
