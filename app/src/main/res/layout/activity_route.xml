@@ -28,6 +28,7 @@
         style="@android:style/Widget.DeviceDefault.ImageButton"
         android:layout_width="0dp"
         android:layout_height="60dp"
+        android:background="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline1"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,6 +50,7 @@
         style="@android:style/Widget.DeviceDefault.ImageButton"
         android:layout_width="0dp"
         android:layout_height="60dp"
+        android:background="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageButton_map"
@@ -62,7 +64,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
-
-
-
 </android.support.constraint.ConstraintLayout>

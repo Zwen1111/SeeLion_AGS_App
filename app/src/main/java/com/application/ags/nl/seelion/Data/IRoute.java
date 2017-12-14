@@ -5,4 +5,10 @@ package com.application.ags.nl.seelion.Data;
  */
 
 public interface IRoute {
+
+    public void generateRoute(String url);
+
+    public void getDuration();
+
+    public void getDistance();
 }

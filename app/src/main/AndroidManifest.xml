@@ -33,13 +33,15 @@
         <activity
             android:name=".UI.Anchors.MapFragment"
             android:label="@string/title_activity_route">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-        <activity android:name=".UI.Anchors.LanguageSelectActivity" />
+        <activity android:name=".UI.Anchors.LanguageSelectActivity">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
         <activity android:name=".UI.Anchors.RouteSelectActivity"></activity>
     </application>
 
