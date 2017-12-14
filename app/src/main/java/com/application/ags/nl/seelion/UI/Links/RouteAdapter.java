@@ -32,28 +32,21 @@ public class RouteAdapter implements View.OnClickListener {
         routeActivity.mapButton.setOnClickListener(this);
         routeActivity.detailButton.setOnClickListener(this);
 
-        changeFragment(new MapFragment());
+        routeActivity.changeFragment(RouteActivity.Fragments.MAP);
     }
 
     private void openRoutePointFragment() {
-        changeFragment(new RoutePointsFragment());
+        routeActivity.changeFragment(RouteActivity.Fragments.POINTS);
     }
 
     private void openMapFragment() {
-        changeFragment(new MapFragment());
+        routeActivity.changeFragment(RouteActivity.Fragments.MAP);
     }
 
     private void openDetailFragment() {
-        changeFragment(new DetailPointFragment());
+        routeActivity.changeFragment(RouteActivity.Fragments.DETAIL);
     }
 
-    private void changeFragment(Fragment fragment) {
-        FragmentTransaction transaction = routeActivity.getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_frame, fragment);
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-
-        transaction.commit();
-    }
 
     @Override
     public void onClick(View view) {
