@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SeeLion</string>
-    <string name="title_activity_route">Kaart</string>
-    <string name="hello_blank_fragment">Hallo blank fragment</string>
-    <string name="Help">Help</string>
-    <string name="Ok">Ok</string>
-    <string name="Error">Foutmelding</string>
+    <string name="select_language">selecteer taal</string>
+    <string name="continue_button_language_activity">verdergaan</string>
+    <string name="language_activity_select">selecteer</string>
 </resources>

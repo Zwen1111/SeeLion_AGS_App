@@ -3,9 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.application.ags.nl.seelion.UI.Anchors.MapFragment">
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
+    tools:context="com.application.ags.nl.seelion.UI.Anchors.RoutePointsFragment">
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycleView_poi"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </FrameLayout>
