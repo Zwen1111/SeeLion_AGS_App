@@ -7,9 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import com.application.ags.nl.seelion.Data.Constants;
 import com.application.ags.nl.seelion.Data.PointOfInterest;
 import com.application.ags.nl.seelion.Data.SqlConnect;
+import com.application.ags.nl.seelion.UI.Anchors.LanguageSelectActivity;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -21,7 +24,7 @@ public class SqlRequest {
     private SqlConnect sqlConnect;
 
     public SqlRequest(){
-        sqlConnect = com.application.ags.nl.seelion.UI.Anchors.MapFragment.sqlConnect;
+        sqlConnect = LanguageSelectActivity.sqlConnect;
     }
 
     public PointOfInterest getBlindWallPOI(String title){
@@ -31,6 +34,7 @@ public class SqlRequest {
 
         cursor.moveToFirst();
         PointOfInterest poi = new PointOfInterest(
+                cursor.getInt(cursor.getColumnIndex(Constants.KEY_ID)),
                 cursor.getString(cursor.getColumnIndex(Constants.KEY_TITLE)),
                 cursor.getString(cursor.getColumnIndex(Constants.KEY_DESCRIPTION)),
                 new LatLng(cursor.getDouble(cursor.getColumnIndex(Constants.KEY_LAT)),
@@ -47,6 +51,7 @@ public class SqlRequest {
 
         cursor.moveToFirst();
         PointOfInterest poi = new PointOfInterest(
+                cursor.getInt(cursor.getColumnIndex(Constants.KEY_ID)),
                 cursor.getString(cursor.getColumnIndex(Constants.KEY_TITLE)),
                 cursor.getString(cursor.getColumnIndex(Constants.KEY_DESCRIPTION)),
                 new LatLng(cursor.getDouble(cursor.getColumnIndex(Constants.KEY_LAT)),
@@ -54,5 +59,51 @@ public class SqlRequest {
         );
 
         return poi;
+    }
+
+    public List<PointOfInterest> getHistorKmPois(){
+        SQLiteDatabase db = sqlConnect.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + Constants.HISTOR_KM_TABLE_NAME, null);
+
+        List<PointOfInterest> pois = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            while (cursor.moveToNext()) {
+                PointOfInterest poi = new PointOfInterest(
+                        cursor.getInt(cursor.getColumnIndex(Constants.KEY_ID)),
+                        cursor.getString(cursor.getColumnIndex(Constants.KEY_TITLE)),
+                        cursor.getString(cursor.getColumnIndex(Constants.KEY_DESCRIPTION)),
+                        new LatLng(cursor.getDouble(cursor.getColumnIndex(Constants.KEY_LAT)),
+                                cursor.getDouble(cursor.getColumnIndex(Constants.KEY_LNG)))
+                );
+                pois.add(poi);
+            }
+        }
+
+        return pois;
+    }
+
+    public List<PointOfInterest> getBlindWallsPois(){
+        SQLiteDatabase db = sqlConnect.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + Constants.BLIND_WALLS_TABLE_NAME, null);
+
+        List<PointOfInterest> pois = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            while (cursor.moveToNext()) {
+                PointOfInterest poi = new PointOfInterest(
+                        cursor.getInt(cursor.getColumnIndex(Constants.KEY_ID)),
+                        cursor.getString(cursor.getColumnIndex(Constants.KEY_TITLE)),
+                        cursor.getString(cursor.getColumnIndex(Constants.KEY_DESCRIPTION)),
+                        new LatLng(cursor.getDouble(cursor.getColumnIndex(Constants.KEY_LAT)),
+                                cursor.getDouble(cursor.getColumnIndex(Constants.KEY_LNG)))
+                );
+                pois.add(poi);
+            }
+        }
+
+        return pois;
     }
 }

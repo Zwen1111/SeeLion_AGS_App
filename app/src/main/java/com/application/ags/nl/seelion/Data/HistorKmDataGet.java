@@ -1,8 +1,10 @@
 package com.application.ags.nl.seelion.Data;
 
 import android.app.Activity;
+import android.content.Context;
 
 import com.application.ags.nl.seelion.Logic.SqlRequest;
+import com.application.ags.nl.seelion.UI.Anchors.LanguageSelectActivity;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -20,22 +22,21 @@ import java.util.List;
 
 public class HistorKmDataGet implements IRoute {
 
-    private Activity activity;
+    private Context context;
     private List<PointOfInterest> allPois;
     private SqlConnect sqlConnect;
 
-    public HistorKmDataGet(Activity activity){
-        sqlConnect = com.application.ags.nl.seelion.UI.Anchors.MapFragment.sqlConnect;
+    public HistorKmDataGet(Context context){
+        sqlConnect = LanguageSelectActivity.sqlConnect;
 
-        this.activity = activity;
-        generateRoute(null);
+        this.context = context;
+        generateRoute();
     }
 
-    @Override
-    public void generateRoute(String url) {
+    private void generateRoute() {
         String json = null;
         try {
-            InputStream is = activity.getAssets().open("historischeKilometer.json");
+            InputStream is = context.getAssets().open("historischeKilometer.json");
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
@@ -66,7 +67,7 @@ public class HistorKmDataGet implements IRoute {
 
                 LatLng latLng = new LatLng(lat, lng);
 
-                PointOfInterest poi = new PointOfInterest(title, "", latLng);
+                PointOfInterest poi = new PointOfInterest(id, title, "", latLng);
                 sqlConnect.addHistorKM(poi);
             }
         } catch (IOException ex) {
@@ -74,10 +75,6 @@ public class HistorKmDataGet implements IRoute {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        SqlRequest request = new SqlRequest();
-        PointOfInterest poi =  request.getHistorKmPOI("Het Poortje");
-        System.out.println(poi);
     }
 
     @Override

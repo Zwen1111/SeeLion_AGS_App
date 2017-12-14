@@ -10,7 +10,7 @@ public class Constants
 
     public static final int PERMISSION_REQUEST_CODE = 698;
 
-    public static final int DB_VERSION = 3;
+    public static final int DB_VERSION = 8;
     public static final String DB_NAME = "LocationAwareDB";
 
     //tables:
@@ -23,4 +23,7 @@ public class Constants
     public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_LAT = "latitude";
     public static final String KEY_LNG = "longitude";
+
+    //geofence:
+    public static final float GEOFENCE_RADIUS_IN_METERS = 20;
 }

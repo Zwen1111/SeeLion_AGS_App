@@ -31,7 +31,8 @@ public class SqlConnect extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String Create_BlindWallsPOI_Table = "CREATE TABLE " + Constants.BLIND_WALLS_TABLE_NAME
-                + " (" + Constants.KEY_TITLE + " TEXT, "
+                + " (" + Constants.KEY_ID + " REAL PRIMARY KEY, "
+                + Constants.KEY_TITLE + " TEXT, "
                 + Constants.KEY_DESCRIPTION + " TEXT, "
                 + Constants.KEY_LAT + " REAL, "
                 + Constants.KEY_LNG + " REAL)";
@@ -41,7 +42,8 @@ public class SqlConnect extends SQLiteOpenHelper{
         Log.i(TAG, "onCreate: " + Create_BlindWallsPOI_Table);
 
         String Create_HistorKM_Table = "CREATE TABLE " + Constants.HISTOR_KM_TABLE_NAME
-                + " (" + Constants.KEY_TITLE + " TEXT, "
+                + " (" + Constants.KEY_ID + " REAL PRIMARY KEY, "
+                + Constants.KEY_TITLE + " TEXT, "
                 + Constants.KEY_DESCRIPTION + " TEXT, "
                 + Constants.KEY_LAT + " REAL, "
                 + Constants.KEY_LNG + " REAL)";
@@ -61,6 +63,7 @@ public class SqlConnect extends SQLiteOpenHelper{
     public void addBlindWall(PointOfInterest poi)
     {
         ContentValues values = new ContentValues();
+        values.put(Constants.KEY_ID, poi.getId());
         values.put(Constants.KEY_TITLE, poi.getTitle());
         values.put(Constants.KEY_DESCRIPTION, poi.getDescription());
         values.put(Constants.KEY_LAT, poi.getLocation().latitude);
@@ -75,6 +78,7 @@ public class SqlConnect extends SQLiteOpenHelper{
     public void addHistorKM(PointOfInterest poi)
     {
         ContentValues values = new ContentValues();
+        values.put(Constants.KEY_ID, poi.getId());
         values.put(Constants.KEY_TITLE, poi.getTitle());
         values.put(Constants.KEY_DESCRIPTION, poi.getDescription());
         values.put(Constants.KEY_LAT, poi.getLocation().latitude);

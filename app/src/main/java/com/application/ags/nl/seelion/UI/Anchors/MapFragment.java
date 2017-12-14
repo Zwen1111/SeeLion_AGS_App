@@ -11,31 +11,38 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.application.ags.nl.seelion.Data.HistorKmDataGet;
 import com.application.ags.nl.seelion.Data.SqlConnect;
+import com.application.ags.nl.seelion.Logic.Map;
 import com.application.ags.nl.seelion.R;
+import com.google.android.gms.location.Geofence;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.List;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private MapView mapView;
     private GoogleMap mMap;
-
-    public static RequestQueue requestQueue;
-    public static SqlConnect sqlConnect;
+    private SqlConnect sqlConnect;
+    private RequestQueue requestQueue;
+    private Map map;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         sqlConnect = new SqlConnect(getContext());
 
         requestQueue = Volley.newRequestQueue(getContext());
         //BlindWallsDataGet blindWallsDataGet = new BlindWallsDataGet();
 //        HistorKmDataGet historKmDataGet = new HistorKmDataGet(getActivity());
+
     }
 
     @Override
@@ -84,9 +91,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.addMarker(new MarkerOptions().position(new LatLng(-33.865143, 151.209900)));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(-34.865143, 151.209900)));
+        //mMap.addMarker(new MarkerOptions().position(new LatLng(-33.865143, 151.209900)));
+       // mMap.addMarker(new MarkerOptions().position(new LatLng(-34.865143, 151.209900)));
 
-       
+
+
     }
 }
