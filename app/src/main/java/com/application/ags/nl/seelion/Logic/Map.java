@@ -5,6 +5,7 @@ import android.content.Context;
 import com.application.ags.nl.seelion.Data.HistorKmDataGet;
 import com.application.ags.nl.seelion.Data.PointOfInterest;
 import com.application.ags.nl.seelion.Data.SqlConnect;
+import com.application.ags.nl.seelion.Hardware.Gps;
 import com.application.ags.nl.seelion.UI.Anchors.MapFragment;
 
 import java.util.List;
@@ -15,25 +16,32 @@ import java.util.List;
 
 public class Map {
 
+    private Gps gps;
     private List<PointOfInterest> pois;
 
     public static Map generateHistorKmMap(Context context){
         HistorKmDataGet historKmDataGet = new HistorKmDataGet(context);
 
         Map map = new Map(new SqlRequest().getHistorKmPois());
-
+        map.gps = new Gps(map, context);
         return map;
     }
 
-    public static Map generateBlindWallsMap(){
+    public static Map generateBlindWallsMap(Context context){
         Map map = new Map(new SqlRequest().getBlindWallsPois());
-
+        map.gps = new Gps(map, context);
         return map;
     }
 
     private Map(List<PointOfInterest> pois){
         this.pois = pois;
+    }
 
+    public List<PointOfInterest> getPois() {
+        return pois;
+    }
 
+    public Gps getGps() {
+        return gps;
     }
 }
