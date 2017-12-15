@@ -23,7 +23,6 @@ public class Map implements Parcelable{
 
     private Gps gps;
     private List<PointOfInterest> pois;
-    private PolylineOptions polylineOptions;
 
     public static Map generateHistorKmMap(Context context){
         HistorKmDataGet historKmDataGet = new HistorKmDataGet(context);
