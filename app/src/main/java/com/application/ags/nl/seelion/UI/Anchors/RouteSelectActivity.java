@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.application.ags.nl.seelion.Logic.Map;
 import com.application.ags.nl.seelion.R;
 
 public class RouteSelectActivity extends AppCompatActivity {
@@ -36,7 +37,7 @@ public class RouteSelectActivity extends AppCompatActivity {
                             currentRoute = "Blindwalls";
                             break;
                         case "Historischekilometer":
-                            currentRoute = "Blindwalls";
+                            currentRoute = "Historischekilometer";
                             break;
                     }
                 }
@@ -52,7 +53,17 @@ public class RouteSelectActivity extends AppCompatActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (currentRoute == "Historischekilometer"){
+                    Map map = Map.generateHistorKmMap(getApplicationContext());
+                    Intent intent  = new Intent(getApplicationContext(), RouteActivity.class);
+                    intent.putExtra("MAP", map);
+                    startActivity(intent);
+                }else{
+                    Map map = Map.generateBlindWallsMap();
+                    Intent intent  = new Intent(getApplicationContext(), RouteActivity.class);
+                    intent.putExtra("MAP", map);
+                    startActivity(intent);
+                }
             }
         });
     }

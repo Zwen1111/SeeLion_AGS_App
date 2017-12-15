@@ -1,6 +1,7 @@
 package com.application.ags.nl.seelion.UI.Anchors;
 
 import android.app.Fragment;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,10 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.application.ags.nl.seelion.Data.HistorKmDataGet;
 import com.application.ags.nl.seelion.Data.SqlConnect;
 import com.application.ags.nl.seelion.Logic.Map;
+import com.application.ags.nl.seelion.Logic.RouteCalculation;
 import com.application.ags.nl.seelion.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,12 +22,31 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private MapView mapView;
     private GoogleMap mMap;
+
+    private PolylineOptions polylineOptions = new PolylineOptions().width(3).color(Color.RED);
+
+    private RouteCalculation routeCalculation;
+
+    private Map map;
+
+    public MapFragment(Map map){
+        this.map = map;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,6 +102,45 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mMap.addMarker(new MarkerOptions().position(new LatLng(-33.865143, 151.209900)));
         mMap.addMarker(new MarkerOptions().position(new LatLng(-34.865143, 151.209900)));
 
-
+        routeCalculation = new RouteCalculation(map, onSuccess);
     }
+
+    public Response.Listener<JSONObject> onSuccess = (JSONObject response) -> {
+        System.out.println(response);
+
+        try {
+            JSONArray jRoutes = response.getJSONArray("routes");
+            JSONArray jLegs = jRoutes.getJSONObject(0).getJSONArray("legs");
+            JSONArray jSteps = jLegs.getJSONObject(0).getJSONArray("steps");
+
+            JSONObject northEastObject = jRoutes.getJSONObject(0).getJSONObject("bounds").getJSONObject("northeast");
+            JSONObject southWestObject = jRoutes.getJSONObject(0).getJSONObject("bounds").getJSONObject("southwest");
+
+            LatLng northEast = new LatLng(northEastObject.getDouble("lat"), northEastObject.getDouble("lng"));
+            LatLng southWest = new LatLng(southWestObject.getDouble("lat"), southWestObject.getDouble("lng"));
+            LatLngBounds bounds = new LatLngBounds(southWest, northEast);
+            //mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 80));
+
+            List<List<LatLng>> lines = new ArrayList<>();
+
+            for (int i = 0; i < jRoutes.length(); i++) {
+                for (int j = 0; j < jLegs.length(); j++) {
+                    for (int k = 0; k < jSteps.length(); k++) {
+                        JSONObject object = jSteps.getJSONObject(k);
+                        String polyline = object.getJSONObject("polyline").getString("points");
+                        List<LatLng> list = routeCalculation.decodePoly(polyline);
+                        lines.add(list);
+                    }
+                }
+            }
+
+            for (List<LatLng> leg : lines) {
+                polylineOptions.addAll(leg);
+            }
+
+            mMap.addPolyline(polylineOptions);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    };
 }
