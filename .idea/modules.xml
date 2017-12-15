@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SeeLion_AGS_App.iml" filepath="$PROJECT_DIR$/SeeLion_AGS_App.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SeeLion_AGS_App.iml" filepath="$PROJECT_DIR$/SeeLion_AGS_App.iml" />
       <module fileurl="file://D:\SCHOOL\PROFTAAK\2.2\seelion\SeeLion_AGS_App\SeeLion_AGS_App.iml" filepath="D:\SCHOOL\PROFTAAK\2.2\seelion\SeeLion_AGS_App\SeeLion_AGS_App.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://D:\SCHOOL\PROFTAAK\2.2\seelion\SeeLion_AGS_App\app\app.iml" filepath="D:\SCHOOL\PROFTAAK\2.2\seelion\SeeLion_AGS_App\app\app.iml" />
     </modules>
