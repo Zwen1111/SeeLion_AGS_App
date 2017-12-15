@@ -43,10 +43,6 @@ public class LanguageSelectActivity extends AppCompatActivity {
         sqlConnect = new SqlConnect(this);
         requestQueue = Volley.newRequestQueue(this);
 
-        //Map.generateBlindWallsMap();
-        Map.generateHistorKmMap(this);
-        new RouteCalculation(new SqlRequest().getHistorKmPois());
-
         languageSpinner = findViewById(R.id.language_select_activty_select_language_comboBox);
         String[] spinnerArray = new String[]{"english", "nederlands"};
         ArrayAdapter<String> spinnerApdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, spinnerArray);

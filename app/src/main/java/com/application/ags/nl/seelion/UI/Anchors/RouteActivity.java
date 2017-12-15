@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
+import com.application.ags.nl.seelion.Logic.Map;
+import com.application.ags.nl.seelion.Logic.RouteCalculation;
 import com.application.ags.nl.seelion.R;
 import com.application.ags.nl.seelion.UI.Links.RouteAdapter;
 
@@ -21,11 +23,16 @@ public class RouteActivity extends AppCompatActivity {
         MAP, DETAIL, POINTS
     }
 
+    private Map map;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route);
+
+        map = getIntent().getParcelableExtra("MAP");
+        new RouteCalculation(map.getPois());
 
         routePointButton = findViewById(R.id.imageButton_routepoint);
         mapButton = findViewById(R.id.imageButton_map);
@@ -39,6 +46,7 @@ public class RouteActivity extends AppCompatActivity {
 //        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 //        transaction.commit();
 
+        changeFragment(Fragments.MAP);
     }
 
     public void changeFragment(Fragments fragment) {

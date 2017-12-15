@@ -37,7 +37,7 @@ public class RouteCalculation {
         this.urls = getUrls(pois);
 
         for (String url : urls) {
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, (Response.Listener<JSONObject>) response -> {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
                 System.out.println(response);
 
                 try {
