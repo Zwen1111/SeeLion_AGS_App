@@ -10,7 +10,7 @@ public class Constants
 
     public static final int PERMISSION_REQUEST_CODE = 698;
 
-    public static final int DB_VERSION = 8;
+    public static final int DB_VERSION = 9;
     public static final String DB_NAME = "LocationAwareDB";
 
     //tables:

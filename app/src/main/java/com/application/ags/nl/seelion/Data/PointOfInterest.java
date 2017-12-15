@@ -59,8 +59,8 @@ public class PointOfInterest implements Parcelable {
         parcel.writeInt(id);
         parcel.writeString(title);
         parcel.writeString(description);
-        parcel.writeDouble(latitude);
         parcel.writeDouble(longitude);
+        parcel.writeDouble(latitude);
     }
 
     public static final Creator<PointOfInterest> CREATOR = new Creator<PointOfInterest>() {

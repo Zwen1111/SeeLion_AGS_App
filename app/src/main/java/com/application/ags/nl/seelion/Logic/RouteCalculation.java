@@ -29,66 +29,19 @@ import java.util.List;
 
 public class RouteCalculation {
 
-    private PolylineOptions polylineOptions = new PolylineOptions().width(3).color(Color.RED);
-    private int counter = 0;
     private List<String> urls;
+    private int counter;
 
-    public RouteCalculation(List<PointOfInterest> pois){
-        this.urls = getUrls(pois);
+    public RouteCalculation(Map map, Response.Listener onSuccess){
+        this.urls = getUrls(map.getPois());
+
+        counter = 0;
 
         for (String url : urls) {
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
-                System.out.println(response);
-
-                try {
-                    JSONArray jRoutes = response.getJSONArray("routes");
-                    JSONArray jLegs = jRoutes.getJSONObject(0).getJSONArray("legs");
-                    JSONArray jSteps = jLegs.getJSONObject(0).getJSONArray("steps");
-
-                    JSONObject northEastObject = jRoutes.getJSONObject(0).getJSONObject("bounds").getJSONObject("northeast");
-                    JSONObject southWestObject = jRoutes.getJSONObject(0).getJSONObject("bounds").getJSONObject("southwest");
-
-                    LatLng northEast = new LatLng(northEastObject.getDouble("lat"), northEastObject.getDouble("lng"));
-                    LatLng southWest = new LatLng(southWestObject.getDouble("lat"), southWestObject.getDouble("lng"));
-                    LatLngBounds bounds = new LatLngBounds(southWest, northEast);
-                    //mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 80));
-
-                    List<List<LatLng>> lines = new ArrayList<>();
-
-                    for (int i = 0; i < jRoutes.length(); i++) {
-                        for (int j = 0; j < jLegs.length(); j++) {
-                            for (int k = 0; k < jSteps.length(); k++) {
-                                JSONObject object = jSteps.getJSONObject(k);
-                                String polyline = object.getJSONObject("polyline").getString("points");
-                                List<LatLng> list = decodePoly(polyline);
-                                lines.add(list);
-                            }
-                        }
-                    }
-
-                    for (List<LatLng> leg : lines) {
-                        polylineOptions.addAll(leg);
-                    }
-
-                    counter++;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }, error -> {
-                System.out.println(error);
-            });
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, onSuccess, error -> System.out.println(error));
 
             RequestQueue requestQueue = LanguageSelectActivity.requestQueue;
             requestQueue.add(jsonObjectRequest);
-        }
-    }
-
-    public PolylineOptions getPolylineOptions(){
-        if (counter == urls.size()) {
-            return polylineOptions;
-        }else{
-            return new PolylineOptions();
         }
     }
 
@@ -139,7 +92,7 @@ public class RouteCalculation {
         return urls;
     }
 
-    private List<LatLng> decodePoly(String encoded) {
+    public List<LatLng> decodePoly(String encoded) {
 
         List<LatLng> poly = new ArrayList<>();
         int index = 0, len = encoded.length();

@@ -32,7 +32,6 @@ public class RouteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_route);
 
         map = getIntent().getParcelableExtra("MAP");
-        new RouteCalculation(map.getPois());
 
         routePointButton = findViewById(R.id.imageButton_routepoint);
         mapButton = findViewById(R.id.imageButton_map);
@@ -55,7 +54,7 @@ public class RouteActivity extends AppCompatActivity {
 
         switch (fragment) {
             case MAP:
-                newFragment = new MapFragment();
+                newFragment = new MapFragment(map);
                 break;
             case DETAIL:
                 newFragment = new DetailPointFragment();

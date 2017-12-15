@@ -58,6 +58,11 @@ public class RouteSelectActivity extends AppCompatActivity {
                     Intent intent  = new Intent(getApplicationContext(), RouteActivity.class);
                     intent.putExtra("MAP", map);
                     startActivity(intent);
+                }else{
+                    Map map = Map.generateBlindWallsMap();
+                    Intent intent  = new Intent(getApplicationContext(), RouteActivity.class);
+                    intent.putExtra("MAP", map);
+                    startActivity(intent);
                 }
             }
         });

@@ -65,18 +65,16 @@ public class BlindWallsDataGet implements IRoute {
                 String description = object.getJSONObject("custom_fields").getJSONArray("blokken_3_tekstblok").getString(0);
 
                 String latlng = object.getJSONObject("custom_fields").getJSONArray("blokken_2_kaart_rechts").getString(0);
-                latlng = latlng.substring(latlng.indexOf("lat"));
-                int index = latlng.indexOf(";s:3:");
-                String latString = latlng.substring(10, index-1);
-                if (String.valueOf(latString.charAt(1)) != "5"){
-                    latString = latString.substring(1);
-                }
-                Double lat = Double.parseDouble(latString);
-                latlng = latlng.substring(latlng.indexOf("lng"));
-                String lngString = latlng.substring(10, latlng.lastIndexOf("\""));
-                if (String.valueOf(lngString.charAt(1)) != "4"){
-                    lngString = lngString.substring(1);
-                }
+
+                String subString = latlng.substring(latlng.lastIndexOf("\"lat\"") + 5, latlng.length()-1);
+                subString = subString.substring(subString.indexOf("\"") + 1, subString.length()-1);
+                String latString = subString.substring(0, subString.indexOf("\""));
+                Double lat = Double.valueOf(latString);
+
+                subString = latlng.substring(latlng.indexOf("\"lng\"") + 5, latlng.length()-1);
+                subString = subString.substring(subString.indexOf("\"") + 1, subString.length()-1);
+                String lngString = subString.substring(0, subString.indexOf("\""));
+
                 Double lng = Double.parseDouble(lngString);
                 LatLng latLng = new LatLng(lat, lng);
 

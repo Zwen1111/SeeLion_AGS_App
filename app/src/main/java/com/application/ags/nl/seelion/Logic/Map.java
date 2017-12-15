@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.application.ags.nl.seelion.Data.BlindWallsDataGet;
 import com.application.ags.nl.seelion.Data.HistorKmDataGet;
 import com.application.ags.nl.seelion.Data.PointOfInterest;
 import com.application.ags.nl.seelion.Data.SqlConnect;
@@ -31,6 +32,8 @@ public class Map implements Parcelable{
     }
 
     public static Map generateBlindWallsMap(){
+        BlindWallsDataGet blindWallsDataGet = new BlindWallsDataGet();
+
         Map map = new Map(new SqlRequest().getBlindWallsPois());
 
         return map;
