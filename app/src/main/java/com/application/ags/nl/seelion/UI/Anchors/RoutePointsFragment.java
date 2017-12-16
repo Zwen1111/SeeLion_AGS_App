@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.application.ags.nl.seelion.Logic.Map;
 import com.application.ags.nl.seelion.R;
 import com.application.ags.nl.seelion.UI.Links.RoutePointsAdapter;
 
@@ -19,6 +20,11 @@ import com.application.ags.nl.seelion.UI.Links.RoutePointsAdapter;
 public class RoutePointsFragment extends Fragment {
 
     private RecyclerView recyclerView;
+    private Map map;
+
+    public RoutePointsFragment(Map map){
+        this.map = map;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,7 +36,7 @@ public class RoutePointsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_routepoint, container, false);
 
         recyclerView = view.findViewById(R.id.recycleView_poi);
-        recyclerView.setAdapter(new RoutePointsAdapter(getActivity()));
+        recyclerView.setAdapter(new RoutePointsAdapter(getActivity(), map));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         return view;
     }

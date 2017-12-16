@@ -60,7 +60,7 @@ public class RouteActivity extends AppCompatActivity {
                 newFragment = new DetailPointFragment();
                 break;
             case POINTS:
-                newFragment = new RoutePointsFragment();
+                newFragment = new RoutePointsFragment(map);
                 break;
         }
 

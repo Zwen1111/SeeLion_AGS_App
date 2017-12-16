@@ -12,7 +12,11 @@ import android.widget.Adapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.application.ags.nl.seelion.Data.PointOfInterest;
+import com.application.ags.nl.seelion.Logic.Map;
 import com.application.ags.nl.seelion.R;
+
+import java.util.List;
 
 /**
  * Created by zwen1 on 12/10/2017.
@@ -20,12 +24,12 @@ import com.application.ags.nl.seelion.R;
 
 public class RoutePointsAdapter extends RecyclerView.Adapter<RoutePointsAdapter.CustomViewHolder> {
 
-    //Todo add list variable here and init it in de constructor
     private Context context;
+    private List<PointOfInterest> pois;
 
-
-    public RoutePointsAdapter(Context context) {
+    public RoutePointsAdapter(Context context, Map map) {
         this.context = context;
+        this.pois = map.getPois();
     }
 
     @Override
@@ -41,26 +45,25 @@ public class RoutePointsAdapter extends RecyclerView.Adapter<RoutePointsAdapter.
         Log.i("test", "ddddd");
         // holder.imageViewPOI.setImageBitmap(null); //Todo add real image
         holder.imageViewState.setImageDrawable(context.getResources().getDrawable(R.drawable.check_icon)); //Or R.drawable.uncheck_icon
-        // holder.textViewNamePOI.setText(R.string.app_name); //Todo add real text
+        holder.textViewNamePOI.setText(pois.get(position).getTitle());
     }
 
     @Override
     public int getItemCount() {
-        //Todo add list count with poi items
-        return 1;
+        return pois.size();
     }
 
     class CustomViewHolder extends RecyclerView.ViewHolder{
 
+        protected TextView textViewNamePOI;
         protected ImageView imageViewPOI;
         protected ImageView imageViewState;
-        protected TextView textViewNamePOI;
 
         public CustomViewHolder(View view) {
             super(view);
+            this.textViewNamePOI = view.findViewById(R.id.textView_name_poi);
             this.imageViewPOI = view.findViewById(R.id.imageView_image_poi);
             this.imageViewState = view.findViewById(R.id.imageView_state);
-            this.textViewNamePOI = view.findViewById(R.id.textView_poi_info);
         }
     }
 }
