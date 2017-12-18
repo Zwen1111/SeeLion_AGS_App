@@ -28,30 +28,11 @@ public class RouteSelectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route_select);
         routeSpinner = findViewById(R.id.spinner_Route);
-        String[] spinnerArray = new String[]{"Blindwalls", "Historischekilometer"};
+        String[] spinnerArray = new String[]{Constants.BlindWalls, Constants.HistorKm};
         ArrayAdapter<String> spinnerApdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, spinnerArray);
         routeSpinner.setAdapter(spinnerApdapter);
-        routeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String route = routeSpinner.getItemAtPosition(i).toString();
-                if (currentRoute != route) {
-                    switch (route) {
-                        case Constants.BlindWalls:
-                            currentRoute = Constants.BlindWalls;
-                            break;
-                        case Constants.HistorKm:
-                            currentRoute = Constants.HistorKm;
-                            break;
-                    }
-                }
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+        currentRoute = Constants.BlindWalls;
 
         confirmButton = findViewById(R.id.confirm_Button);
         confirmButton.setOnClickListener(new View.OnClickListener() {
