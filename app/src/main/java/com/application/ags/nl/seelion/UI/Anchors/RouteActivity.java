@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
+import com.application.ags.nl.seelion.Data.Constants;
 import com.application.ags.nl.seelion.Logic.Map;
 import com.application.ags.nl.seelion.Logic.RouteCalculation;
 import com.application.ags.nl.seelion.R;
@@ -34,7 +35,16 @@ public class RouteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route);
 
-        map = getIntent().getParcelableExtra("MAP");
+        String mapString = getIntent().getStringExtra("MAP");
+
+        switch (mapString){
+            case Constants.BlindWalls:
+                map = Map.generateBlindWallsMap(this);
+                break;
+            case Constants.HistorKm:
+                map = Map.generateHistorKmMap(this);
+                break;
+        }
 
         routePointButton = findViewById(R.id.imageButton_routepoint);
         mapButton = findViewById(R.id.imageButton_map);
