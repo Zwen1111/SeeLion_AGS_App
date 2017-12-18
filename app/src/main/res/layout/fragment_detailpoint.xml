@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.application.ags.nl.seelion.UI.Anchors.DetailPointFragment">
 
-    <android.support.constraint.ConstraintLayout
+
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -30,6 +30,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView_poi_info" />
-    </android.support.constraint.ConstraintLayout>
 
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.application.ags.nl.seelion.R;
 
@@ -27,7 +28,7 @@ public class Notification extends FragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_arrival);
-
+        Log.i("test", "ss");
         Intent intent = new Intent(this, this.getClass());
         pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

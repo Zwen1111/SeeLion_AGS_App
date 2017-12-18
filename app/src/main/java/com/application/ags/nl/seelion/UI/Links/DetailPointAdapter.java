@@ -1,10 +1,12 @@
 package com.application.ags.nl.seelion.UI.Links;
 
 import android.database.DataSetObserver;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 
+import com.application.ags.nl.seelion.Data.PointOfInterest;
 import com.application.ags.nl.seelion.UI.Anchors.DetailPointFragment;
 
 /**
@@ -17,6 +19,6 @@ public class DetailPointAdapter  {
 
     public DetailPointAdapter(DetailPointFragment detailPointFragment) {
         this.detailPointFragment = detailPointFragment;
-        //Todo Get data from sql request class and add data to imageview and textview
+        //todo set text and image but it gives me an error
     }
 }

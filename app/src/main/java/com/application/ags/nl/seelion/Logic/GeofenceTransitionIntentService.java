@@ -2,6 +2,7 @@ package com.application.ags.nl.seelion.Logic;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.application.ags.nl.seelion.Hardware.Notification;
@@ -29,21 +30,26 @@ public class GeofenceTransitionIntentService extends IntentService {
             //Todo Error handling
             return;
         }
-        // Get the transition type.
+
         int geofenceTransition = geofencingEvent.getGeofenceTransition();
 
-        // Test that the reported transition was of interest.
-        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ||
-                geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
+        List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
 
-            // Get the geofences that were triggered. A single event can trigger
-            // multiple geofences.
-            List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
+        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER) {
 
-            Notification notification = new Notification();
-            notification.notifyWithBoth();
-        } else {
-            // Todo error.
+            SharedPreferences settings = getSharedPreferences("SeeLion", 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString("Current POI", triggeringGeofences.get(0).getRequestId());
+            editor.commit();
+
+        //    Notification notification = new Notification();
+//            notification.notifyWithBoth();
+        } else if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT){
+            SharedPreferences settings = getSharedPreferences("SeeLion", 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.remove("Current POI");
+            editor.putString("Current POI", null);
+            editor.commit();
         }
     }
 

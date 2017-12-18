@@ -67,7 +67,7 @@ public class Gps implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient
                             poi.getLocation().longitude,
                             Constants.GEOFENCE_RADIUS_IN_METERS)
                     .setExpirationDuration(Geofence.NEVER_EXPIRE)
-                    .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
+                    .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT)
                     .build());
         }
         Log.i("List", "" + geofenceList.size());

@@ -8,4 +8,8 @@
     <string name="no">Nee</string>
     <string name="exit_route">Route verlaten</string>
     <string name="exit_route_description">Weet u zeker dat u de route wilt verlaten?</string>
+    <string name="language_activity_select">selecteer</string>
+    <string name="continue_button_language_activity">ga verder</string>
+    <string name="select_language">selecteer taal</string>
+    <string name="detailfragment_toast">U heeft nog geen point of interest bezocht.</string>
 </resources>

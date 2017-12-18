@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.application.ags.nl.seelion.Data.PointOfInterest;
 import com.application.ags.nl.seelion.R;
 import com.application.ags.nl.seelion.UI.Links.DetailPointAdapter;
 
@@ -21,6 +22,11 @@ public class DetailPointFragment extends Fragment {
     public ImageView imageViewPOI;
     public TextView textViewPOI;
     private DetailPointAdapter detailPointAdapter;
+    private PointOfInterest pointOfInterest;
+
+    public DetailPointFragment(PointOfInterest pointOfInterest) {
+        this.pointOfInterest = pointOfInterest;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,4 +45,7 @@ public class DetailPointFragment extends Fragment {
         return view;
     }
 
+    public PointOfInterest getPointOfInterest() {
+        return pointOfInterest;
+    }
 }

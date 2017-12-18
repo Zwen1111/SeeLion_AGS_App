@@ -3,38 +3,21 @@ package com.application.ags.nl.seelion.UI.Anchors;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.application.ags.nl.seelion.Data.Constants;
 import com.application.ags.nl.seelion.Data.PointOfInterest;
-import com.application.ags.nl.seelion.Logic.GeofenceTransitionIntentService;
-
 import com.application.ags.nl.seelion.Logic.Map;
-import com.application.ags.nl.seelion.Logic.RouteCalculation;
 import com.application.ags.nl.seelion.R;
 import com.application.ags.nl.seelion.UI.Links.RouteAdapter;
 import com.application.ags.nl.seelion.UI.popups.Error;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.Geofence;
-import com.google.android.gms.location.GeofencingClient;
-import com.google.android.gms.location.GeofencingRequest;
-import com.google.android.gms.location.LocationServices;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class RouteActivity extends AppCompatActivity {
 
@@ -43,6 +26,7 @@ public class RouteActivity extends AppCompatActivity {
     public ImageButton detailButton;
     public FrameLayout frameLayout;
     private RouteAdapter routeAdapter;
+
     public enum Fragments {
         MAP, DETAIL, POINTS
     }
@@ -50,15 +34,19 @@ public class RouteActivity extends AppCompatActivity {
     private Map map;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route);
 
+        SharedPreferences settings = getSharedPreferences("SeeLion", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("Current POI", null);
+        editor.commit();
+
         String mapString = getIntent().getStringExtra("MAP");
 
-        switch (mapString){
+        switch (mapString) {
             case Constants.BlindWalls:
                 Log.i("test", "test");
                 map = Map.generateBlindWallsMap(this);
@@ -77,29 +65,61 @@ public class RouteActivity extends AppCompatActivity {
         changeFragment(Fragments.MAP);
 
 
-
     }
 
     public void changeFragment(Fragments fragment) {
 
         Fragment newFragment = null;
+        boolean canChange = true;
 
         switch (fragment) {
             case MAP:
                 newFragment = new MapFragment(map);
                 break;
             case DETAIL:
-                newFragment = new DetailPointFragment();
+                canChange = hasCurrentPOI();
+                if (canChange) newFragment = new DetailPointFragment(searchPOI());
+                else routeAdapter.onClick(mapButton);
                 break;
             case POINTS:
                 newFragment = new RoutePointsFragment(map);
                 break;
         }
 
+        if (canChange == false) {
+            Toast.makeText(
+                    getApplicationContext(),
+                    R.string.detailfragment_toast, Toast.LENGTH_LONG
+            ).show();
+            return;
+        }
+
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(frameLayout.getId(), newFragment);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction.commit();
+    }
+
+    public boolean hasCurrentPOI() {
+        SharedPreferences settings = getSharedPreferences("SeeLion", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        String currentPOI = settings.getString("Current POI", null);
+
+        if (currentPOI == null) return false;
+        else return true;
+    }
+
+    public PointOfInterest searchPOI() {
+        SharedPreferences settings = getSharedPreferences("SeeLion", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        String currentPOI = settings.getString("Current POI", null);
+
+        for (PointOfInterest poi: map.getPois()) {
+            if (poi.getTitle().contains(currentPOI)) {
+                return poi;
+            }
+        }
+        return null;
     }
 
     @Override
