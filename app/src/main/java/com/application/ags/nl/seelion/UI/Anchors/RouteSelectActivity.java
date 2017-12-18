@@ -1,6 +1,9 @@
 package com.application.ags.nl.seelion.UI.Anchors;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -31,7 +34,7 @@ public class RouteSelectActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String route = routeSpinner.getItemAtPosition(i).toString();
-                if(currentRoute != route) {
+                if (currentRoute != route) {
                     switch (route) {
                         case "Blindwalls":
                             currentRoute = "Blindwalls";
@@ -53,18 +56,19 @@ public class RouteSelectActivity extends AppCompatActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (currentRoute == "Historischekilometer"){
+                if (currentRoute == "Historischekilometer") {
                     Map map = Map.generateHistorKmMap(getApplicationContext());
-                    Intent intent  = new Intent(getApplicationContext(), RouteActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), RouteActivity.class);
                     intent.putExtra("MAP", map);
                     startActivity(intent);
-                }else{
+                } else {
                     Map map = Map.generateBlindWallsMap(getApplicationContext());
-                    Intent intent  = new Intent(getApplicationContext(), RouteActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), RouteActivity.class);
                     intent.putExtra("MAP", map);
                     startActivity(intent);
                 }
             }
         });
     }
+
 }

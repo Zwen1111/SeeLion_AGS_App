@@ -1,9 +1,12 @@
 package com.application.ags.nl.seelion.UI.Anchors;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -42,16 +45,23 @@ public class LanguageSelectActivity extends AppCompatActivity {
 
         sqlConnect = new SqlConnect(this);
         requestQueue = Volley.newRequestQueue(this);
-
-        languageSpinner = findViewById(R.id.language_select_activty_select_language_comboBox);
-        String[] spinnerArray = new String[]{"english", "nederlands"};
-        ArrayAdapter<String> spinnerApdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, spinnerArray);
-        languageSpinner.setAdapter(spinnerApdapter);
+        while(!arePermissionsGiven());
+        {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+            languageSpinner = findViewById(R.id.language_select_activty_select_language_comboBox);
+            String[] spinnerArray = new String[]{"english", "nederlands"};
+            ArrayAdapter<String> spinnerApdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, spinnerArray);
+            languageSpinner.setAdapter(spinnerApdapter);
         languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String language = languageSpinner.getItemAtPosition(i).toString();
-                if(currentLanguage != language) {
+                if (currentLanguage != language) {
                     switch (language) {
                         case "nederlands":
                             currentLanguage = "nl";
@@ -62,6 +72,9 @@ public class LanguageSelectActivity extends AppCompatActivity {
                     }
                 }
             }
+
+
+
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -88,5 +101,21 @@ public class LanguageSelectActivity extends AppCompatActivity {
        Configuration conf = res.getConfiguration();
        conf.locale = myLocale;
        res.updateConfiguration(conf, dm);
+    }
+
+    private boolean arePermissionsGiven(){
+        if(ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(getApplicationContext(),Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            return true;
+        }else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    }, 42);
+            return false;
+            }
     }
 }
