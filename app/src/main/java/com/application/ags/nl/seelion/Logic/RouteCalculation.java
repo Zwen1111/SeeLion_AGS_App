@@ -31,11 +31,13 @@ public class RouteCalculation {
 
     private List<String> urls;
     private int counter;
+    private LatLng currentLocation;
 
-    public RouteCalculation(Map map, Response.Listener onSuccess){
+    public RouteCalculation(Map map, LatLng currentLocation, Response.Listener onSuccess){
+        counter = 0;
+        this.currentLocation = currentLocation;
         this.urls = getUrls(map.getPois());
 
-        counter = 0;
 
         for (String url : urls) {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, onSuccess, error -> System.out.println(error));
@@ -63,7 +65,13 @@ public class RouteCalculation {
         for (int i = 0; i < subLists.size(); i++) {
             List<PointOfInterest> subList = subLists.get(i);
 
-            LatLng origin = subList.get(0).getLocation();
+            LatLng origin;
+
+            if (counter == 0) {
+                origin = currentLocation;
+            }else{
+                origin = subList.get(0).getLocation();
+            }
             LatLng dest = subList.get(subList.size()-1).getLocation();
 
             String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
@@ -90,6 +98,8 @@ public class RouteCalculation {
 
             String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=AIzaSyCatWPTi84F26w6BYiUlUJ6sR9Tkv9VyXw";
             urls.add(url);
+
+            counter++;
         }
 
 //        for (int i = 1; i < pois.size(); i++) {

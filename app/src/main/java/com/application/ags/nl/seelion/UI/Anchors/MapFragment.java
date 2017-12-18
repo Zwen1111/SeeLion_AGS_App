@@ -53,6 +53,8 @@ import org.json.JSONObject;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -153,7 +155,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             mMap.addMarker(new MarkerOptions().position(poi.getLocation()).title(poi.getTitle()));
         }
 
-        routeCalculation = new RouteCalculation(map, onSuccess);
+        Location location = getLastKnownLocation();
+
+        routeCalculation = new RouteCalculation(map, new LatLng(location.getLatitude(), location.getLongitude()),onSuccess);
     }
 
     @Override
@@ -163,9 +167,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     @Override
     public boolean onMyLocationButtonClick() {
-        // Return false so that we don't consume the event and the default behavior still occurs
-        // (the camera animates to the user's current position).
-        return false;
+        Location location = getLastKnownLocation();
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(new LatLng(location.getLatitude(), location.getLongitude()))
+                .zoom(17)
+                .bearing(degree)
+                .tilt(45)
+                .build();
+
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+        return true;
     }
 
     public Response.Listener<JSONObject> onSuccess = (JSONObject response) -> {
@@ -174,13 +186,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         try {
             JSONArray jRoutes = response.getJSONArray("routes");
 
-            JSONObject northEastObject = jRoutes.getJSONObject(0).getJSONObject("bounds").getJSONObject("northeast");
-            JSONObject southWestObject = jRoutes.getJSONObject(0).getJSONObject("bounds").getJSONObject("southwest");
-
-            LatLng northEast = new LatLng(northEastObject.getDouble("lat"), northEastObject.getDouble("lng"));
-            LatLng southWest = new LatLng(southWestObject.getDouble("lat"), southWestObject.getDouble("lng"));
-            LatLngBounds bounds = new LatLngBounds(southWest, northEast);
-            //mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 80));
+//            JSONObject northEastObject = jRoutes.getJSONObject(0).getJSONObject("bounds").getJSONObject("northeast");
+//            JSONObject southWestObject = jRoutes.getJSONObject(0).getJSONObject("bounds").getJSONObject("southwest");
+//
+//            LatLng northEast = new LatLng(northEastObject.getDouble("lat"), northEastObject.getDouble("lng"));
+//            LatLng southWest = new LatLng(southWestObject.getDouble("lat"), southWestObject.getDouble("lng"));
+//            LatLngBounds bounds = new LatLngBounds(southWest, northEast);
+//            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 80));
 
             List<List<LatLng>> lines = new ArrayList<>();
 
@@ -228,9 +240,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         int degree = Math.round(sensorEvent.values[0]);
 
         if (degree != this.degree && (degree - this.degree > 10 || degree - this.degree < -10)) {
-
-            Log.i("Device Orientation: ", String.valueOf(degree));
-
             Location location = getLastKnownLocation();
 
             CameraPosition cameraPosition = new CameraPosition.Builder()
@@ -252,7 +261,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     }
 
-    private Location getLastKnownLocation() {
+    public Location getLastKnownLocation() {
         locationManager = (LocationManager)getActivity().getApplicationContext().getSystemService(LOCATION_SERVICE);
         List<String> providers = locationManager.getProviders(true);
         Location bestLocation = null;
