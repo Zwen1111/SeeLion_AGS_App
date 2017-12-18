@@ -1,7 +1,9 @@
 package com.application.ags.nl.seelion.UI.Anchors;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.FrameLayout;
@@ -11,6 +13,7 @@ import com.application.ags.nl.seelion.Logic.Map;
 import com.application.ags.nl.seelion.Logic.RouteCalculation;
 import com.application.ags.nl.seelion.R;
 import com.application.ags.nl.seelion.UI.Links.RouteAdapter;
+import com.application.ags.nl.seelion.UI.popups.Error;
 
 public class RouteActivity extends AppCompatActivity {
 
@@ -70,4 +73,18 @@ public class RouteActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = Error.generateError(this, getString(R.string.exit_route), getString(R.string.exit_route_description));
+        builder.setNegativeButton(getString(R.string.yes), (dialogInterface, i) -> {
+            super.onBackPressed();
+        });
+        builder.setPositiveButton(getString(R.string.no), (dialogInterface, i) -> {
+
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+    }
 }

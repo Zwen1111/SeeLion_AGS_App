@@ -6,4 +6,9 @@
     <string name="language_activity_select">select</string>
     <string name="SelecteerRoute">Select route:</string>
     <string name="ConfirmButton">Confirm</string>
+    <string name="ok">Ok</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="exit_route">Exit route</string>
+    <string name="exit_route_description">Are you sure you want to exit the route?</string>
 </resources>

@@ -48,22 +48,23 @@ public class RouteCalculation {
     public List<String> getUrls(List<PointOfInterest> pois)
     {
         List<String> urls = new ArrayList<>();
-//        List<List<PointOfInterest>> listOfPois = new ArrayList<>();
-//
-//        while (pois.size() > 23){
-//            List<PointOfInterest> subList = pois.subList(0,23);
-//            listOfPois.add(subList);
-//            pois = pois.subList(22, pois.size());
-//        }
-//        if (pois.size() > 0){
-//            listOfPois.add(pois);
-//        }
-//        for (List<PointOfInterest> pois2 : listOfPois) {
-//        }
-        for (int i = 1; i < pois.size(); i++) {
 
-            LatLng origin = pois.get(i-1).getLocation();
-            LatLng dest = pois.get(i).getLocation();
+        List<List<PointOfInterest>> subLists = new ArrayList<>();
+
+        while (pois.size() > 23){
+            List<PointOfInterest> subList = pois.subList(0,22);
+            subLists.add(subList);
+            pois = pois.subList(22, pois.size()-1);
+        }
+        if (pois.size() > 0){
+            subLists.add(pois);
+        }
+
+        for (int i = 0; i < subLists.size(); i++) {
+            List<PointOfInterest> subList = subLists.get(i);
+
+            LatLng origin = subList.get(0).getLocation();
+            LatLng dest = subList.get(subList.size()-1).getLocation();
 
             String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
 
@@ -71,26 +72,43 @@ public class RouteCalculation {
 
             String trafficMode = "mode=walking";
 
-//            String str_waypoints = "waypoints=";
-//
-//            for (int i = 1; i < pois2.size()-1; i++) {
-//                PointOfInterest poi = pois2.get(i);
-//                LatLng stopover = poi.getLocation();
-//                if (i != pois2.size()-2) {
-//                    str_waypoints += stopover.latitude + "," + stopover.longitude + "|";
-//                }else{
-//                    str_waypoints += stopover.latitude + "," + stopover.longitude;
-//                }
-//            }
+            String str_waypoints = "waypoints=optimize:true|";
 
-            String parameters = str_origin + "&" + str_dest + "&" + trafficMode;
+            for (int j = 1; j < subList.size()-1; j++) {
+                PointOfInterest poi = subList.get(j);
+                LatLng stopover = poi.getLocation();
+                if (j != subList.size()-2) {
+                    str_waypoints += stopover.latitude + "," + stopover.longitude + "|";
+                }else{
+                    str_waypoints += stopover.latitude + "," + stopover.longitude;
+                }
+            }
+
+            String parameters = str_origin + "&" + str_dest + "&" + str_waypoints + "&" + trafficMode;
 
             String output = "json";
 
             String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=AIzaSyCatWPTi84F26w6BYiUlUJ6sR9Tkv9VyXw";
             urls.add(url);
-
         }
+
+//        for (int i = 1; i < pois.size(); i++) {
+//            LatLng origin = pois.get(i-1).getLocation();
+//            LatLng dest = pois.get(i).getLocation();
+//
+//            String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
+//
+//            String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
+//
+//            String trafficMode = "mode=walking";
+//
+//            String parameters = str_origin + "&" + str_dest + "&" + trafficMode;
+//
+//            String output = "json";
+//
+//            String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=AIzaSyCatWPTi84F26w6BYiUlUJ6sR9Tkv9VyXw";
+//            urls.add(url);
+//        }
         return urls;
     }
 

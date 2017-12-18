@@ -121,8 +121,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         try {
             JSONArray jRoutes = response.getJSONArray("routes");
-            JSONArray jLegs = jRoutes.getJSONObject(0).getJSONArray("legs");
-            JSONArray jSteps = jLegs.getJSONObject(0).getJSONArray("steps");
 
             JSONObject northEastObject = jRoutes.getJSONObject(0).getJSONObject("bounds").getJSONObject("northeast");
             JSONObject southWestObject = jRoutes.getJSONObject(0).getJSONObject("bounds").getJSONObject("southwest");
@@ -135,7 +133,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             List<List<LatLng>> lines = new ArrayList<>();
 
             for (int i = 0; i < jRoutes.length(); i++) {
+                JSONArray jLegs = jRoutes.getJSONObject(i).getJSONArray("legs");
                 for (int j = 0; j < jLegs.length(); j++) {
+                    JSONArray jSteps = jLegs.getJSONObject(j).getJSONArray("steps");
                     for (int k = 0; k < jSteps.length(); k++) {
                         JSONObject object = jSteps.getJSONObject(k);
                         String polyline = object.getJSONObject("polyline").getString("points");
