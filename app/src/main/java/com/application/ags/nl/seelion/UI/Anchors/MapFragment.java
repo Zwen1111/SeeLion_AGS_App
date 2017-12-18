@@ -2,6 +2,7 @@ package com.application.ags.nl.seelion.UI.Anchors;
 
 import android.annotation.SuppressLint;
 import android.app.Fragment;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,9 +16,11 @@ import com.android.volley.toolbox.Volley;
 import com.application.ags.nl.seelion.Data.HistorKmDataGet;
 import com.application.ags.nl.seelion.Data.PointOfInterest;
 import com.application.ags.nl.seelion.Data.SqlConnect;
+import com.application.ags.nl.seelion.Hardware.Gps;
 import com.application.ags.nl.seelion.Logic.Map;
 import com.application.ags.nl.seelion.Logic.RouteCalculation;
 import com.application.ags.nl.seelion.R;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -46,6 +49,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private RouteCalculation routeCalculation;
 
     private Map map;
+    private Gps gps;
 
     public MapFragment(Map map){
         this.map = map;
@@ -54,6 +58,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        gps = new Gps(map, getActivity());
+
     }
 
     @Override
