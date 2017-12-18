@@ -36,7 +36,7 @@ import com.google.android.gms.location.LocationServices;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RouteActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ResultCallback<Status> {
+public class RouteActivity extends AppCompatActivity {
 
     public ImageButton routePointButton;
     public ImageButton mapButton;
@@ -49,9 +49,6 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
 
     private Map map;
 
-    private GoogleApiClient googleApiClient;
-    private List<Geofence> geofenceList;
-    private GeofencingClient geofencingClient;
 
 
     @Override
@@ -59,13 +56,11 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route);
 
-        map = getIntent().getParcelableExtra("MAP");
-        Log.i("Message", "" + map.getPois().size());
-
         String mapString = getIntent().getStringExtra("MAP");
 
         switch (mapString){
             case Constants.BlindWalls:
+                Log.i("test", "test");
                 map = Map.generateBlindWallsMap(this);
                 break;
             case Constants.HistorKm:
@@ -81,93 +76,8 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
 
         changeFragment(Fragments.MAP);
 
-        geofenceList = new ArrayList<>();
 
-        geofencingClient = LocationServices.getGeofencingClient(getApplicationContext());
-        googleApiClient = new GoogleApiClient.Builder(getApplicationContext())
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-        if (!googleApiClient.isConnecting() || !googleApiClient.isConnected()) {
-            googleApiClient.connect();
-        }
 
-    }
-
-    private void makeGeofences(List<PointOfInterest> pointOfInterests) {
-        for (PointOfInterest poi : pointOfInterests) {
-            Log.i("POI", poi.getLocation().toString());
-            geofenceList.add(new Geofence.Builder()
-                    .setRequestId(poi.getTitle())
-                    .setCircularRegion(
-                            poi.getLocation().latitude,
-                            poi.getLocation().longitude,
-                            Constants.GEOFENCE_RADIUS_IN_METERS)
-                    .setExpirationDuration(Geofence.NEVER_EXPIRE)
-                    .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
-                    .build());
-        }
-        Log.i("List", "" + geofenceList.size());
-        addGeofences();
-    }
-
-    private void addGeofences() {
-        if (!googleApiClient.isConnected()) {
-            return;
-        }
-        try {
-            //geofencingClient.addGeofences(getGeofenicingRequest(), getGeofencePendingIntent());
-            LocationServices.GeofencingApi.addGeofences(
-                    googleApiClient,
-                    getGeofenicingRequest(),
-                    getGeofencePendingIntent()).setResultCallback(this);
-        } catch (SecurityException securityException) {
-            //Todo Error handling
-        }
-    }
-
-    private GeofencingRequest getGeofenicingRequest() {
-        GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
-        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
-        builder.addGeofences(geofenceList);
-        return builder.build();
-
-    }
-
-    private PendingIntent getGeofencePendingIntent() {
-        Intent intent = new Intent(getApplicationContext(), GeofenceTransitionIntentService.class);
-
-        return PendingIntent.getService(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-    }
-
-    private List<Geofence> getGeofenceList() {
-        return geofenceList;
-    }
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        makeGeofences(map.getPois());
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        googleApiClient.connect();
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.i("GPS", "Not Connected");
-    }
-
-    @Override
-    public void onResult(@NonNull Status status) {
-
-        if (status.isSuccess()) {
-            Log.i("GPS Satus", "" + status.getStatusCode());
-        } else {
-
-        }
     }
 
     public void changeFragment(Fragments fragment) {

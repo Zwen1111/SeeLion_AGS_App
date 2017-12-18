@@ -29,5 +29,5 @@ public class Constants
     public static final String KEY_IMAGES = "images";
 
     //geofence:
-    public static final float GEOFENCE_RADIUS_IN_METERS = 50;
+    public static final float GEOFENCE_RADIUS_IN_METERS = 20;
 }

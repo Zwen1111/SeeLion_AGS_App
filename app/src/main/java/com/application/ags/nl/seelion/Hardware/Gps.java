@@ -40,7 +40,7 @@ public class Gps implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient
 
     public Gps(Map map, Context context) {
         this.map = map;
-        this.context = context.getApplicationContext();
+        this.context = context;
 
         geofenceList = new ArrayList<>();
 
