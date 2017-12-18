@@ -1,5 +1,6 @@
 package com.application.ags.nl.seelion.UI.Anchors;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import com.application.ags.nl.seelion.UI.Links.RoutePointsAdapter;
  * Created by zwen1 on 12/10/2017.
  */
 
+@SuppressLint("ValidFragment")
 public class RoutePointsFragment extends Fragment {
 
     private RecyclerView recyclerView;

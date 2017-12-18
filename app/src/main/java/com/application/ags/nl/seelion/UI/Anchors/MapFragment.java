@@ -1,5 +1,6 @@
 package com.application.ags.nl.seelion.UI.Anchors;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.application.ags.nl.seelion.Data.HistorKmDataGet;
+import com.application.ags.nl.seelion.Data.PointOfInterest;
 import com.application.ags.nl.seelion.Data.SqlConnect;
 import com.application.ags.nl.seelion.Logic.Map;
 import com.application.ags.nl.seelion.Logic.RouteCalculation;
@@ -33,6 +35,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressLint("ValidFragment")
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private MapView mapView;
@@ -99,8 +102,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.addMarker(new MarkerOptions().position(new LatLng(-33.865143, 151.209900)));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(-34.865143, 151.209900)));
+
+        for (PointOfInterest poi : map.getPois()) {
+            mMap.addMarker(new MarkerOptions().position(poi.getLocation()).title(poi.getTitle()));
+        }
 
         routeCalculation = new RouteCalculation(map, onSuccess);
     }

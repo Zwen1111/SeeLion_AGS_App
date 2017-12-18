@@ -6,10 +6,19 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static com.android.volley.VolleyLog.TAG;
@@ -35,7 +44,8 @@ public class SqlConnect extends SQLiteOpenHelper{
                 + Constants.KEY_TITLE + " TEXT, "
                 + Constants.KEY_DESCRIPTION + " TEXT, "
                 + Constants.KEY_LAT + " REAL, "
-                + Constants.KEY_LNG + " REAL)";
+                + Constants.KEY_LNG + " REAL, "
+                + Constants.KEY_IMAGES + " TEXT)";
 
         sqLiteDatabase.execSQL(Create_BlindWallsPOI_Table);
 
@@ -46,7 +56,8 @@ public class SqlConnect extends SQLiteOpenHelper{
                 + Constants.KEY_TITLE + " TEXT, "
                 + Constants.KEY_DESCRIPTION + " TEXT, "
                 + Constants.KEY_LAT + " REAL, "
-                + Constants.KEY_LNG + " REAL)";
+                + Constants.KEY_LNG + " REAL, "
+                + Constants.KEY_IMAGES + " TEXT)";
 
         sqLiteDatabase.execSQL(Create_HistorKM_Table);
 
@@ -68,6 +79,7 @@ public class SqlConnect extends SQLiteOpenHelper{
         values.put(Constants.KEY_DESCRIPTION, poi.getDescription());
         values.put(Constants.KEY_LAT, poi.getLocation().latitude);
         values.put(Constants.KEY_LNG, poi.getLocation().longitude);
+        values.put(Constants.KEY_IMAGES, poi.getImagesJsonString());
 
         SQLiteDatabase database = this.getWritableDatabase();
         database.insert(Constants.BLIND_WALLS_TABLE_NAME, null, values);
@@ -83,6 +95,7 @@ public class SqlConnect extends SQLiteOpenHelper{
         values.put(Constants.KEY_DESCRIPTION, poi.getDescription());
         values.put(Constants.KEY_LAT, poi.getLocation().latitude);
         values.put(Constants.KEY_LNG, poi.getLocation().longitude);
+        values.put(Constants.KEY_IMAGES, poi.getImagesJsonString());
 
         SQLiteDatabase database = getWritableDatabase();
         database.insert(Constants.HISTOR_KM_TABLE_NAME, null, values);

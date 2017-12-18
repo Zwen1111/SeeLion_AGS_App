@@ -1,5 +1,7 @@
 package com.application.ags.nl.seelion.Data;
 
+import android.graphics.drawable.Drawable;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -78,7 +80,7 @@ public class BlindWallsDataGet implements IRoute {
                 Double lng = Double.parseDouble(lngString);
                 LatLng latLng = new LatLng(lat, lng);
 
-                PointOfInterest pointOfInterest = new PointOfInterest(id, title, description, latLng);
+                PointOfInterest pointOfInterest = new PointOfInterest(id, title, description, latLng, new ArrayList<>());
                 allPois.add(pointOfInterest);
                 sqlConnect.addBlindWall(pointOfInterest);
             }

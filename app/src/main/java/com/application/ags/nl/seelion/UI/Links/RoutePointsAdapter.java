@@ -43,8 +43,15 @@ public class RoutePointsAdapter extends RecyclerView.Adapter<RoutePointsAdapter.
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         Log.i("test", "ddddd");
-        // holder.imageViewPOI.setImageBitmap(null); //Todo add real image
-        holder.imageViewState.setImageDrawable(context.getResources().getDrawable(R.drawable.check_icon)); //Or R.drawable.uncheck_icon
+        if (pois.get(position).getImages().size() > 0) {
+            Drawable d = pois.get(position).getImageDrawables(context).get(0);
+            holder.imageViewPOI.setImageDrawable(d);
+        }
+        if (pois.get(position).isVisited()) {
+            holder.imageViewState.setImageDrawable(context.getResources().getDrawable(R.drawable.check_icon));
+        }else{
+            holder.imageViewState.setImageDrawable(context.getResources().getDrawable(R.drawable.uncheck_icon));
+        }
         holder.textViewNamePOI.setText(pois.get(position).getTitle());
     }
 

@@ -27,7 +27,7 @@ public class Map implements Parcelable{
     public static Map generateHistorKmMap(Context context){
         HistorKmDataGet historKmDataGet = new HistorKmDataGet(context);
 
-        Map map = new Map(new SqlRequest().getHistorKmPois());
+        Map map = new Map(new SqlRequest().getHistorKmPois(context));
         map.gps = new Gps(map, context);
         return map;
     }
@@ -35,7 +35,7 @@ public class Map implements Parcelable{
     public static Map generateBlindWallsMap(Context context){
         BlindWallsDataGet blindWallsDataGet = new BlindWallsDataGet();
 
-        Map map = new Map(new SqlRequest().getBlindWallsPois());
+        Map map = new Map(new SqlRequest().getBlindWallsPois(context));
         map.gps = new Gps(map, context);
         return map;
     }

@@ -2,6 +2,7 @@ package com.application.ags.nl.seelion.Data;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 
 import com.application.ags.nl.seelion.Logic.SqlRequest;
 import com.application.ags.nl.seelion.UI.Anchors.LanguageSelectActivity;
@@ -14,6 +15,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,24 +52,21 @@ public class HistorKmDataGet implements IRoute {
                 int id = object.getInt("1");
                 String title = object.getString("VVV");
 
-                String northing = object.getString("51°35.6467’");
-                String easting = object.getString("4°46.7650’ ");
-
-                int d = Integer.parseInt(northing.substring(0, northing.indexOf("°")));
-                int m = Integer.parseInt(northing.substring(northing.indexOf("°") + 1, northing.indexOf(".")));
-                int s = Integer.parseInt(northing.substring(northing.indexOf(".") + 1, northing.indexOf("’")));
-
-                Double lat = Math.signum(d) * (Math.abs(d) + (m / 60.0) + (s / 3600.0));
-
-                d = Integer.parseInt(easting.substring(0, easting.indexOf("°")));
-                m = Integer.parseInt(easting.substring(easting.indexOf("°") + 1, easting.indexOf(".")));
-                s = Integer.parseInt(easting.substring(easting.indexOf(".") + 1, easting.indexOf("’")));
-
-                Double lng = Math.signum(d) * (Math.abs(d) + (m / 60.0) + (s / 3600.0));
+                double lat = object.getDouble("51°35.6467’");
+                double lng = object.getDouble("4°46.7650’ ");
 
                 LatLng latLng = new LatLng(lat, lng);
 
-                PointOfInterest poi = new PointOfInterest(id, title, "", latLng);
+                List<String> drawables = new ArrayList<>();
+
+                JSONArray images = object.getJSONArray("Image");
+                for (int j = 0; j < images.length(); j++) {
+                    JSONObject imagesObject = images.getJSONObject(j);
+                    String image = imagesObject.getString("image");
+                    drawables.add(image);
+                }
+
+                PointOfInterest poi = new PointOfInterest(id, title, "", latLng, drawables);
                 sqlConnect.addHistorKM(poi);
             }
         } catch (IOException ex) {
