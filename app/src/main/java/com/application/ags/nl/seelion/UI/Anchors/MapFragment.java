@@ -20,6 +20,7 @@ import com.application.ags.nl.seelion.Hardware.Gps;
 import com.application.ags.nl.seelion.Logic.Map;
 import com.application.ags.nl.seelion.Logic.RouteCalculation;
 import com.application.ags.nl.seelion.R;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -59,7 +60,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         gps = new Gps(map, getActivity());
-
     }
 
     @Override
