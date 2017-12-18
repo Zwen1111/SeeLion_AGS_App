@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.application.ags.nl.seelion.Data.Constants;
 import com.application.ags.nl.seelion.Data.PointOfInterest;
@@ -16,7 +17,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.Geofence;
-import com.google.android.gms.location.GeofencingApi;
+import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationServices;
 
@@ -33,6 +34,7 @@ public class Gps implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient
     private Context context;
     private GoogleApiClient googleApiClient;
     private List<Geofence> geofenceList;
+    private GeofencingClient geofencingClient;
 
     public Gps(Map map, Context context) {
         this.map = map;
@@ -40,24 +42,29 @@ public class Gps implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient
 
         geofenceList = new ArrayList<>();
 
+        geofencingClient = LocationServices.getGeofencingClient(context);
         googleApiClient = new GoogleApiClient.Builder(context)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+        if (!googleApiClient.isConnecting() || !googleApiClient.isConnected()) {
+            googleApiClient.connect();
+        }
 
-        makeGeofences(map.getPois());
+
     }
 
     private void makeGeofences(List<PointOfInterest> pointOfInterests) {
         for (PointOfInterest poi : pointOfInterests) {
+            Log.i("POI", poi.getLocation().toString());
             geofenceList.add(new Geofence.Builder()
                     .setRequestId(poi.getTitle())
                     .setCircularRegion(
                             poi.getLocation().latitude,
                             poi.getLocation().longitude,
                             Constants.GEOFENCE_RADIUS_IN_METERS)
-                    .setExpirationDuration(0)
+                    .setExpirationDuration(Geofence.NEVER_EXPIRE)
                     .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
                     .build());
         }
@@ -66,14 +73,14 @@ public class Gps implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient
 
     private void addGeofences() {
         if (!googleApiClient.isConnected()) {
-            //Todo Error handling
             return;
         }
         try {
-            LocationServices.GeofencingApi.addGeofences(
+            //geofencingClient.addGeofences(getGeofenicingRequest(), getGeofencePendingIntent());
+           LocationServices.GeofencingApi.addGeofences(
                     googleApiClient,
-                    getGeofenicingRequest(),
-                    getGeofencePendingIntent()).setResultCallback(this);
+                   getGeofenicingRequest(),
+                   getGeofencePendingIntent()).setResultCallback(this);
         } catch (SecurityException securityException) {
             //Todo Error handling
         }
@@ -93,13 +100,13 @@ public class Gps implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient
         return PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    public List<Geofence> getGeofenceList() {
+    private List<Geofence> getGeofenceList() {
         return geofenceList;
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-
+        makeGeofences(map.getPois());
     }
 
     @Override
@@ -109,13 +116,14 @@ public class Gps implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        Log.i("GPS", "Not Connected");
     }
 
     @Override
     public void onResult(@NonNull Status status) {
-        if (status.isSuccess()) {
 
+        if (status.isSuccess()) {
+            Log.i("GPS Satus", "" + status.getStatusCode());
         } else {
 
         }

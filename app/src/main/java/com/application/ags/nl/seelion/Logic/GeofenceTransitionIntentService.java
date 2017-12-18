@@ -16,11 +16,12 @@ import java.util.List;
 
 public class GeofenceTransitionIntentService extends IntentService {
 
-    public GeofenceTransitionIntentService(String name) {
-        super(name);
+    public GeofenceTransitionIntentService() {
+        super("GEOFENCE");
     }
 
     protected void onHandleIntent(Intent intent) {
+        Log.i("Geofence", "Geofence");
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
         if (geofencingEvent.hasError()) {
             //Todo Error handling

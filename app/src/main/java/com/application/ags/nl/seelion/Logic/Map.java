@@ -21,14 +21,12 @@ import java.util.List;
 
 public class Map implements Parcelable{
 
-    private Gps gps;
     private List<PointOfInterest> pois;
 
     public static Map generateHistorKmMap(Context context){
         HistorKmDataGet historKmDataGet = new HistorKmDataGet(context);
 
         Map map = new Map(new SqlRequest().getHistorKmPois());
-        map.gps = new Gps(map, context);
         return map;
     }
 
@@ -36,7 +34,6 @@ public class Map implements Parcelable{
         BlindWallsDataGet blindWallsDataGet = new BlindWallsDataGet();
 
         Map map = new Map(new SqlRequest().getBlindWallsPois());
-        map.gps = new Gps(map, context);
         return map;
     }
 
@@ -50,10 +47,6 @@ public class Map implements Parcelable{
     protected Map(Parcel in){
         pois = new ArrayList<>();
         in.readList(this.pois, PointOfInterest.class.getClassLoader());
-    }
-
-    public Gps getGps() {
-        return gps;
     }
 
     @Override
