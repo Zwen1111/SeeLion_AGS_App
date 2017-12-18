@@ -63,6 +63,9 @@ public class Notification extends FragmentActivity {
 
         long[] vibrationArray = {200};
         builder.setVibrate(vibrationArray);
+        if (notificationManager == null){
+            notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        }
         notificationManager.notify(1, builder.build()); //Todo fix error here java.lang.NullPointerException: Attempt to invoke virtual method 'android.content.pm.ApplicationInfo android.content.Context.getApplicationInfo()' on a null object reference
     }
 }
