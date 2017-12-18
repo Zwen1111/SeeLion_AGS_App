@@ -16,11 +16,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.application.ags.nl.seelion.Data.Constants;
-<<<<<<< HEAD
 import com.application.ags.nl.seelion.Data.PointOfInterest;
 import com.application.ags.nl.seelion.Logic.GeofenceTransitionIntentService;
-=======
->>>>>>> master
+
 import com.application.ags.nl.seelion.Logic.Map;
 import com.application.ags.nl.seelion.Logic.RouteCalculation;
 import com.application.ags.nl.seelion.R;
@@ -61,10 +59,9 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route);
 
-<<<<<<< HEAD
         map = getIntent().getParcelableExtra("MAP");
         Log.i("Message", "" + map.getPois().size());
-=======
+
         String mapString = getIntent().getStringExtra("MAP");
 
         switch (mapString){
@@ -76,7 +73,6 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
                 break;
         }
 
->>>>>>> master
         routePointButton = findViewById(R.id.imageButton_routepoint);
         mapButton = findViewById(R.id.imageButton_map);
         detailButton = findViewById(R.id.imageButton_detail);

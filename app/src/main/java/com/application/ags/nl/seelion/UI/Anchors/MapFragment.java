@@ -83,14 +83,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-<<<<<<< HEAD
        // gps = new Gps(map, getActivity());
-=======
-        gps = new Gps(map, getActivity());
 
         sensorService = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         sensor = sensorService.getDefaultSensor(Sensor.TYPE_ORIENTATION);
->>>>>>> master
     }
 
     @Override
