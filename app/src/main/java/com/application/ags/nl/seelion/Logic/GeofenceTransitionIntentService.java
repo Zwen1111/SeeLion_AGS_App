@@ -18,8 +18,10 @@ public class GeofenceTransitionIntentService extends IntentService {
 
     public GeofenceTransitionIntentService() {
         super("GEOFENCE");
+        Log.i("Geofence", "Geofences");
     }
 
+    @Override
     protected void onHandleIntent(Intent intent) {
         Log.i("Geofence", "Geofence");
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
@@ -27,7 +29,6 @@ public class GeofenceTransitionIntentService extends IntentService {
             //Todo Error handling
             return;
         }
-
         // Get the transition type.
         int geofenceTransition = geofencingEvent.getGeofenceTransition();
 

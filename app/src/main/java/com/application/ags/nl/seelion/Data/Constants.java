@@ -25,5 +25,5 @@ public class Constants
     public static final String KEY_LNG = "longitude";
 
     //geofence:
-    public static final float GEOFENCE_RADIUS_IN_METERS = 20;
+    public static final float GEOFENCE_RADIUS_IN_METERS = 50;
 }

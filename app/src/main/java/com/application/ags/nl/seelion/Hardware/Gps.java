@@ -14,11 +14,13 @@ import com.application.ags.nl.seelion.Logic.GeofenceTransitionIntentService;
 import com.application.ags.nl.seelion.Logic.Map;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.location.GeofencingRequest;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 import java.util.ArrayList;
@@ -38,7 +40,7 @@ public class Gps implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient
 
     public Gps(Map map, Context context) {
         this.map = map;
-        this.context = context;
+        this.context = context.getApplicationContext();
 
         geofenceList = new ArrayList<>();
 
@@ -68,6 +70,7 @@ public class Gps implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient
                     .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
                     .build());
         }
+        Log.i("List", "" + geofenceList.size());
         addGeofences();
     }
 
