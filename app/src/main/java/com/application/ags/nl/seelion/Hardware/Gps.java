@@ -43,6 +43,7 @@ public class Gps implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient
     public Gps(RouteActivity routeActivity, Map map, Context context) {
         this.map = map;
         this.context = context;
+        this.routeActivity = routeActivity;
 
         geofenceList = new ArrayList<>();
 
@@ -61,7 +62,7 @@ public class Gps implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient
 
     private void makeGeofences(List<PointOfInterest> pointOfInterests) {
         for (PointOfInterest poi : pointOfInterests) {
-            Log.i("POI", poi.getLocation().toString());
+            Log.i("POI", String.valueOf(poi.getId()));
             geofenceList.add(new Geofence.Builder()
                     .setRequestId(String.valueOf(poi.getId()))
                     .setCircularRegion(
