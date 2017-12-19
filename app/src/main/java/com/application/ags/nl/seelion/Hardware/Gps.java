@@ -98,7 +98,8 @@ public class Gps implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient
     }
 
     private PendingIntent getGeofencePendingIntent() {
-        Intent intent = new Intent(context, GeofenceTransitionIntentService.class);
+        GeofenceTransitionIntentService geofenceTransitionIntentService = new GeofenceTransitionIntentService("Toet"); //Todo verander toet door interface
+        Intent intent = new Intent(context, geofenceTransitionIntentService.getClass());
 
         return PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
