@@ -176,6 +176,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                         options.addAll(leg);
                     }
                     getActivity().runOnUiThread(() -> mMap.addPolyline(options));
+
+                    new SqlConnect(getActivity()).addWalkedRouteLocations(walked);
+
                     LatLng lastLocation = walked.get(walked.size()-1);
                     walked = new ArrayList<>();
                     walked.add(lastLocation);

@@ -19,6 +19,8 @@ public class Constants
     //tables:
     public static final String BLIND_WALLS_TABLE_NAME = "BlindWallsPOI";
     public static final String HISTOR_KM_TABLE_NAME = "HistorKmPOI";
+    public static final String WALKED_ROUTE_TABLE_NAME = "WalkedRoute";
+    public static final String VISITED_POI_TABLE_NAME = "VisitedPOI";
 
     //columns:
     public static final String KEY_ID = "id";
