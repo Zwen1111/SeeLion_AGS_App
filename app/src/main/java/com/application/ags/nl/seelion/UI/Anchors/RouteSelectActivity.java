@@ -30,7 +30,7 @@ public class RouteSelectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_route_select);
         routeSpinner = findViewById(R.id.spinner_Route);
         String[] spinnerArray = new String[]{Constants.BlindWalls, Constants.HistorKm};
-        ArrayAdapter<String> spinnerApdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, spinnerArray);
+        ArrayAdapter<String> spinnerApdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
         routeSpinner.setAdapter(spinnerApdapter);
 
         currentRoute = Constants.BlindWalls;

@@ -71,6 +71,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     private Map map;
     private Gps gps;
+    private RouteActivity routeActivity;
 
     private SensorManager sensorService;
     private Sensor sensor;
@@ -80,15 +81,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     private List<LatLng> walked;
 
-    public MapFragment(Map map) {
+    public MapFragment(RouteActivity routeActivity, Map map) {
         this.map = map;
+        this.routeActivity = routeActivity;
         walked = new ArrayList<>();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        gps = new Gps(map, getActivity().getApplicationContext());
+        gps = new Gps(routeActivity, map, getActivity().getApplicationContext());
 
         sensorService = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         sensor = sensorService.getDefaultSensor(Sensor.TYPE_ORIENTATION);

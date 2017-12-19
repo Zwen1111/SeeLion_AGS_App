@@ -37,8 +37,8 @@
 
     <Button
         android:id="@+id/language_activty_select_button"
-        android:layout_width="98dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="64dp"

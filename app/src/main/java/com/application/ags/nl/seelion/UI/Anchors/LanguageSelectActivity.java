@@ -55,7 +55,7 @@ public class LanguageSelectActivity extends AppCompatActivity {
         }
             languageSpinner = findViewById(R.id.language_select_activty_select_language_comboBox);
             String[] spinnerArray = new String[]{"english", "nederlands"};
-            ArrayAdapter<String> spinnerApdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, spinnerArray);
+            ArrayAdapter<String> spinnerApdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
             languageSpinner.setAdapter(spinnerApdapter);
         languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

@@ -75,7 +75,7 @@ public class RouteActivity extends AppCompatActivity {
 
         switch (fragment) {
             case MAP:
-                newFragment = new MapFragment(map);
+                newFragment = new MapFragment(this, map);
                 break;
             case DETAIL:
                 newFragment = new DetailPointFragment(currentPOI);

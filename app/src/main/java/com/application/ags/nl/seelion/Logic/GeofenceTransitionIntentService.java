@@ -8,6 +8,7 @@ import android.util.Log;
 import com.application.ags.nl.seelion.Data.Constants;
 import com.application.ags.nl.seelion.Data.PointOfInterest;
 import com.application.ags.nl.seelion.Hardware.Notification;
+import com.application.ags.nl.seelion.UI.Anchors.RouteActivity;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 
@@ -18,12 +19,14 @@ import java.util.List;
  */
 
 public class GeofenceTransitionIntentService extends IntentService {
+    private RouteActivity routeActivity;
 
     //todo verander string name naar interface
     private static String name;
 
-    public GeofenceTransitionIntentService() {
+    public GeofenceTransitionIntentService(RouteActivity routeActivity) {
         super("GEOFENCE");
+        this.routeActivity = routeActivity;
     }
 
     //todo verander string name naar interface
@@ -57,7 +60,7 @@ public class GeofenceTransitionIntentService extends IntentService {
                 poi = new SqlRequest().getHistorKmPOI(getApplicationContext(), id);
             }
 
-
+            routeActivity.setCurrentPOI(poi);
 
         //    Notification notification = new Notification();
 //            notification.notifyWithBoth();

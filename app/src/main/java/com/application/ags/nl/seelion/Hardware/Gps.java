@@ -12,6 +12,7 @@ import com.application.ags.nl.seelion.Data.Constants;
 import com.application.ags.nl.seelion.Data.PointOfInterest;
 import com.application.ags.nl.seelion.Logic.GeofenceTransitionIntentService;
 import com.application.ags.nl.seelion.Logic.Map;
+import com.application.ags.nl.seelion.UI.Anchors.RouteActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -37,8 +38,9 @@ public class Gps implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient
     private GoogleApiClient googleApiClient;
     private List<Geofence> geofenceList;
     private GeofencingClient geofencingClient;
+    private RouteActivity routeActivity;
 
-    public Gps(Map map, Context context) {
+    public Gps(RouteActivity routeActivity, Map map, Context context) {
         this.map = map;
         this.context = context;
 
@@ -98,7 +100,7 @@ public class Gps implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient
     }
 
     private PendingIntent getGeofencePendingIntent() {
-        GeofenceTransitionIntentService geofenceTransitionIntentService = new GeofenceTransitionIntentService("Toet"); //Todo verander toet door interface
+        GeofenceTransitionIntentService geofenceTransitionIntentService = new GeofenceTransitionIntentService(routeActivity);
         Intent intent = new Intent(context, geofenceTransitionIntentService.getClass());
 
         return PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
