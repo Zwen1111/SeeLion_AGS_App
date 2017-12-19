@@ -78,8 +78,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     private int degree;
 
+    private List<LatLng> walked;
+
     public MapFragment(Map map) {
         this.map = map;
+        walked = new ArrayList<>();
     }
 
     @Override
@@ -158,6 +161,27 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         Location location = getLastKnownLocation();
 
         routeCalculation = new RouteCalculation(map, new LatLng(location.getLatitude(), location.getLongitude()),onSuccess);
+
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (walked.size() > 1){
+                    PolylineOptions options = new PolylineOptions()
+                            .width(3)
+                            .color(Color.BLUE);
+                    for (int i = 1; i < walked.size(); i++) {
+                        List<LatLng> leg = new ArrayList<>(2);
+                        leg.add(walked.get(i-1));
+                        leg.add(walked.get(i));
+                        options.addAll(leg);
+                    }
+                    getActivity().runOnUiThread(() -> mMap.addPolyline(options));
+                    LatLng lastLocation = walked.get(walked.size()-1);
+                    walked = new ArrayList<>();
+                    walked.add(lastLocation);
+                }
+            }
+        }, 3000, 3000);
     }
 
     @Override
@@ -252,8 +276,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
             this.degree = degree;
-        }
 
+            walked.add(new LatLng(location.getLatitude(), location.getLongitude()));
+        }
     }
 
     @Override
