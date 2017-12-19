@@ -169,4 +169,28 @@ public class SqlRequest {
 
         return pois;
     }
+
+    public boolean isEmtpy(){
+        SQLiteDatabase db = sqlConnect.getReadableDatabase();
+
+        Cursor mCount= db.rawQuery("SELECT COUNT(*) FROM " + Constants.HISTOR_KM_TABLE_NAME + ";", null);
+        mCount.moveToFirst();
+        int count= mCount.getInt(0);
+        mCount.close();
+
+        if (count == 0){
+            return true;
+        }
+
+        mCount= db.rawQuery("SELECT COUNT(*) FROM " + Constants.BLIND_WALLS_TABLE_NAME + ";", null);
+        mCount.moveToFirst();
+        count = mCount.getInt(0);
+        mCount.close();
+
+        if (count == 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
