@@ -17,14 +17,21 @@ import java.util.List;
 
 public class GeofenceTransitionIntentService extends IntentService {
 
+    //todo verander string name naar interface
+    private static String name;
+
     public GeofenceTransitionIntentService() {
         super("GEOFENCE");
-        Log.i("Geofence", "Geofences");
+    }
+
+    //todo verander string name naar interface
+    public GeofenceTransitionIntentService(String name) {
+        super("GEOFENCE");
+        this.name = name;
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.i("Geofence", "Geofence");
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
         if (geofencingEvent.hasError()) {
             //Todo Error handling
