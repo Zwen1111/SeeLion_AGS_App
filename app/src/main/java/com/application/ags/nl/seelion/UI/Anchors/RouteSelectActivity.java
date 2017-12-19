@@ -2,6 +2,7 @@ package com.application.ags.nl.seelion.UI.Anchors;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -35,13 +36,15 @@ public class RouteSelectActivity extends AppCompatActivity {
         currentRoute = Constants.BlindWalls;
 
         confirmButton = findViewById(R.id.confirm_Button);
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), RouteActivity.class);
-                intent.putExtra("MAP", currentRoute);
-                startActivity(intent);
-            }
+        confirmButton.setOnClickListener(view -> {
+            SharedPreferences settings = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString(Constants.CURRENT_ROUTE, currentRoute);
+            editor.commit();
+
+            Intent intent = new Intent(getApplicationContext(), RouteActivity.class);
+            intent.putExtra("MAP", currentRoute);
+            startActivity(intent);
         });
     }
 

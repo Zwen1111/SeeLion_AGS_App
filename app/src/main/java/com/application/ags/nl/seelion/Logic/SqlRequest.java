@@ -34,10 +34,10 @@ public class SqlRequest {
         sqlConnect = LanguageSelectActivity.sqlConnect;
     }
 
-    public PointOfInterest getBlindWallPOI(Context context, String title){
+    public PointOfInterest getBlindWallPOI(Context context, int id){
         SQLiteDatabase db = sqlConnect.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + Constants.BLIND_WALLS_TABLE_NAME + " WHERE " + Constants.KEY_TITLE + "='" + title + "'", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + Constants.BLIND_WALLS_TABLE_NAME + " WHERE " + Constants.KEY_ID + "=" + id + ";", null);
 
         List<String> drawables = new ArrayList<>();
         cursor.moveToFirst();
@@ -66,10 +66,10 @@ public class SqlRequest {
         return poi;
     }
 
-    public PointOfInterest getHistorKmPOI(Context context, String title){
+    public PointOfInterest getHistorKmPOI(Context context, int id){
         SQLiteDatabase db = sqlConnect.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + Constants.HISTOR_KM_TABLE_NAME + " WHERE " + Constants.KEY_TITLE + "='" + title + "'", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + Constants.HISTOR_KM_TABLE_NAME + " WHERE " + Constants.KEY_ID + "=" + id + ";", null);
 
         List<String> drawables = new ArrayList<>();
         cursor.moveToFirst();

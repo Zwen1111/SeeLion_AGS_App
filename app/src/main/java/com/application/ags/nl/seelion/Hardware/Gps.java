@@ -61,7 +61,7 @@ public class Gps implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient
         for (PointOfInterest poi : pointOfInterests) {
             Log.i("POI", poi.getLocation().toString());
             geofenceList.add(new Geofence.Builder()
-                    .setRequestId(poi.getTitle())
+                    .setRequestId(String.valueOf(poi.getId()))
                     .setCircularRegion(
                             poi.getLocation().latitude,
                             poi.getLocation().longitude,

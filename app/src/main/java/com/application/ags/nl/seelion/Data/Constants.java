@@ -16,6 +16,9 @@ public class Constants
     public static final int DB_VERSION = 13;
     public static final String DB_NAME = "LocationAwareDB";
 
+    public static final String SHARED_PREFERENCES_NAME = "SeeLionSharedPreferences";
+    public static final String CURRENT_ROUTE = "CurrentRoute";
+
     //tables:
     public static final String BLIND_WALLS_TABLE_NAME = "BlindWallsPOI";
     public static final String HISTOR_KM_TABLE_NAME = "HistorKmPOI";

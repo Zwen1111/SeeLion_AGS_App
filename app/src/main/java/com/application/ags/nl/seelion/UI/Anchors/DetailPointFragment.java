@@ -1,6 +1,8 @@
 package com.application.ags.nl.seelion.UI.Anchors;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import com.application.ags.nl.seelion.UI.Links.DetailPointAdapter;
  * Created by zwen1 on 12/10/2017.
  */
 
+@SuppressLint("ValidFragment")
 public class DetailPointFragment extends Fragment {
 
     public ImageView imageViewPOI;
@@ -42,6 +45,14 @@ public class DetailPointFragment extends Fragment {
         textViewPOI.setMovementMethod(new ScrollingMovementMethod());
 
         detailPointAdapter = new DetailPointAdapter(this);
+
+        if (pointOfInterest != null){
+            Drawable d = pointOfInterest.getImageDrawables(getActivity()).get(0);
+            if (d != null) {
+                imageViewPOI.setImageDrawable(d);
+            }
+            textViewPOI.setText(pointOfInterest.getDescription());
+        }
         return view;
     }
 

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.application.ags.nl.seelion.Data.Constants;
+import com.application.ags.nl.seelion.Data.PointOfInterest;
 import com.application.ags.nl.seelion.Hardware.Notification;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
@@ -36,21 +38,29 @@ public class GeofenceTransitionIntentService extends IntentService {
         List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
 
         if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER) {
+            int id = Integer.parseInt(triggeringGeofences.get(0).getRequestId());
+            SharedPreferences settings = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, MODE_PRIVATE);
+            String route = settings.getString(Constants.CURRENT_ROUTE, null);
 
-            SharedPreferences settings = getSharedPreferences("SeeLion", 0);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putString("Current POI", triggeringGeofences.get(0).getRequestId());
-            editor.commit();
+            PointOfInterest poi;
+
+            if (route.equals(Constants.BlindWalls)){
+                poi = new SqlRequest().getBlindWallPOI(getApplicationContext(), id);
+            }else{
+                poi = new SqlRequest().getHistorKmPOI(getApplicationContext(), id);
+            }
+
+
 
         //    Notification notification = new Notification();
 //            notification.notifyWithBoth();
-        } else if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT){
-            SharedPreferences settings = getSharedPreferences("SeeLion", 0);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.remove("Current POI");
-            editor.putString("Current POI", null);
-            editor.commit();
         }
+//        else if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT){
+//            SharedPreferences settings = getSharedPreferences("SeeLion", 0);
+//            SharedPreferences.Editor editor = settings.edit();
+//            editor.putString("Current POI", null);
+//            editor.commit();
+//        }
     }
 
 }

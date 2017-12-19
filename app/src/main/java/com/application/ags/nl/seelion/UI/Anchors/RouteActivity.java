@@ -26,6 +26,7 @@ public class RouteActivity extends AppCompatActivity {
     public ImageButton detailButton;
     public FrameLayout frameLayout;
     private RouteAdapter routeAdapter;
+    private PointOfInterest currentPOI;
 
     public enum Fragments {
         MAP, DETAIL, POINTS
@@ -77,9 +78,7 @@ public class RouteActivity extends AppCompatActivity {
                 newFragment = new MapFragment(map);
                 break;
             case DETAIL:
-                canChange = hasCurrentPOI();
-                if (canChange) newFragment = new DetailPointFragment(searchPOI());
-                else routeAdapter.onClick(mapButton);
+                newFragment = new DetailPointFragment(currentPOI);
                 break;
             case POINTS:
                 newFragment = new RoutePointsFragment(map);
@@ -100,26 +99,9 @@ public class RouteActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    public boolean hasCurrentPOI() {
-        SharedPreferences settings = getSharedPreferences("SeeLion", 0);
-        SharedPreferences.Editor editor = settings.edit();
-        String currentPOI = settings.getString("Current POI", null);
-
-        if (currentPOI == null) return false;
-        else return true;
-    }
-
-    public PointOfInterest searchPOI() {
-        SharedPreferences settings = getSharedPreferences("SeeLion", 0);
-        SharedPreferences.Editor editor = settings.edit();
-        String currentPOI = settings.getString("Current POI", null);
-
-        for (PointOfInterest poi: map.getPois()) {
-            if (poi.getTitle().contains(currentPOI)) {
-                return poi;
-            }
-        }
-        return null;
+    public void setCurrentPOI(PointOfInterest currentPOI){
+        this.currentPOI = currentPOI;
+        changeFragment(Fragments.DETAIL);
     }
 
     @Override
