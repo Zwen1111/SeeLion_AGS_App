@@ -18,6 +18,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -139,6 +142,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.clear();
         mMap.getUiSettings().setZoomControlsEnabled(true);
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(),
@@ -155,8 +159,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             sensorService.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
         }
 
+        SharedPreferences settings = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+
         for (PointOfInterest poi : map.getPois()) {
-            Marker marker = mMap.addMarker(new MarkerOptions().position(poi.getLocation()).title(poi.getTitle()));
+            Marker marker = mMap.addMarker(new MarkerOptions().position(poi.getLocation()).title(poi.getTitle()).icon(BitmapDescriptorFactory.defaultMarker(settings.getFloat("MARKER_COLOR", -1))));
             markers.add(marker);
         }
 
@@ -174,7 +180,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-        SharedPreferences settings = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
 
         if (!settings.getBoolean("Save exit", true)){
@@ -195,9 +200,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             @Override
             public void run() {
                 if (walked.size() > 1){
+                    int color = settings.getInt("WALKED_ROUTE_COLOR", -1);
+
                     PolylineOptions options = new PolylineOptions()
                             .width(3)
-                            .color(Color.BLUE);
+                            .color(color);
                     for (int i = 1; i < walked.size(); i++) {
                         List<LatLng> leg = new ArrayList<>(2);
                         leg.add(walked.get(i-1));
@@ -340,10 +347,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     }
 
     public void changeMarker(PointOfInterest currentPOI) {
-        for (Marker marker : markers) {
-            if (marker.getTitle().equals(currentPOI.getTitle())){
-                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+        for (int i = 0; i < map.getPois().size(); i++) {
+            if (map.getPois().get(i).getTitle().equals(currentPOI.getTitle())){
+                map.getPois().get(i).setVisited(true);
             }
         }
+        for (Marker marker : markers) {
+            if (marker.getTitle().equals(currentPOI.getTitle())){
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+                float color = sharedPreferences.getFloat("MARKER_COLOR", -1);
+                marker.setIcon(BitmapDescriptorFactory.defaultMarker(color));
+            }
+        }
+    }
+
+    public void setColorblind(){
+        onMapReady(mMap);
     }
 }

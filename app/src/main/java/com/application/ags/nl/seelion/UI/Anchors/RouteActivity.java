@@ -5,9 +5,17 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -19,6 +27,9 @@ import com.application.ags.nl.seelion.Logic.SqlRequest;
 import com.application.ags.nl.seelion.R;
 import com.application.ags.nl.seelion.UI.Links.RouteAdapter;
 import com.application.ags.nl.seelion.UI.popups.Error;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+
+import java.util.Locale;
 
 import static com.application.ags.nl.seelion.UI.Anchors.LanguageSelectActivity.sqlConnect;
 
@@ -154,5 +165,62 @@ public class RouteActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater mMenuInflater = getMenuInflater();
+        mMenuInflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.changeLanguage:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                ArrayAdapter<String> languages = new ArrayAdapter<>(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item);
+                languages.add("English");
+                languages.add("Nederlands");
+                builder.setAdapter(languages, (dialogInterface, i) -> {
+                    if(languages.getItem(i).equals("English")){
+                        Locale myLocale = new Locale("en");
+                        Resources res = getResources();
+                        DisplayMetrics dm = res.getDisplayMetrics();
+                        Configuration conf = res.getConfiguration();
+                        conf.locale = myLocale;
+                        res.updateConfiguration(conf, dm);
+                    }else{
+                        Locale myLocale = new Locale("nl");
+                        Resources res = getResources();
+                        DisplayMetrics dm = res.getDisplayMetrics();
+                        Configuration conf = res.getConfiguration();
+                        conf.locale = myLocale;
+                        res.updateConfiguration(conf, dm);
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                return true;
+            case R.id.colorBlind:
+                SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                boolean checked = !item.isChecked();
+                if (checked) {
+                    editor.putFloat("MARKER_COLOR", BitmapDescriptorFactory.HUE_BLUE);
+                    editor.putInt("WALKED_ROUTE_COLOR", Color.BLUE);
+                }else {
+                    editor.putFloat("MARKER_COLOR", BitmapDescriptorFactory.HUE_GREEN);
+                    editor.putInt("WALKED_ROUTE_COLOR", Color.GREEN);
+                }
+                editor.commit();
+                item.setChecked(checked);
+                mapFragment.setColorblind();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

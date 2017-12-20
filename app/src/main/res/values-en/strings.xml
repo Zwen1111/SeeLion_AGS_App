@@ -16,4 +16,6 @@
     <string name="error_key">Something went wrong</string>
     <string name="not_save_exit_detected_description">Do you want to load the previous session?</string>
     <string name="not_save_exit_detected">Previous session not closed securely</string>
+    <string name="colorblind">Colorblind</string>
+    <string name="language">Language</string>
 </resources>

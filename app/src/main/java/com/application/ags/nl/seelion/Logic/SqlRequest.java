@@ -142,8 +142,8 @@ public class SqlRequest {
         List<PointOfInterest> pois = new ArrayList<>();
 
         if (cursor.moveToFirst()){
-            List<String> drawables = new ArrayList<>();
             while (cursor.moveToNext()){
+                List<String> drawables = new ArrayList<>();
                 try {
                     JSONArray array = new JSONArray(cursor.getString(cursor.getColumnIndex(Constants.KEY_IMAGES)));
 
@@ -224,5 +224,41 @@ public class SqlRequest {
         SQLiteDatabase db = sqlConnect.getWritableDatabase();
 
         db.rawQuery("DELETE FROM " + Constants.VISITED_POI_TABLE_NAME, null);
+    }
+
+    public List<PointOfInterest> getVisitedPois() {
+        SQLiteDatabase db = sqlConnect.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + Constants.VISITED_POI_TABLE_NAME, null);
+
+        List<PointOfInterest> pois = new ArrayList<>();
+
+        if (cursor.moveToFirst()){
+            while (cursor.moveToNext()){
+                List<String> drawables = new ArrayList<>();
+                try {
+                    JSONArray array = new JSONArray(cursor.getString(cursor.getColumnIndex(Constants.KEY_IMAGES)));
+
+                    for (int i = 0; i < array.length(); i++) {
+                        String image = array.getString(i);
+                        drawables.add(image);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                PointOfInterest poi = new PointOfInterest(
+                        cursor.getInt(cursor.getColumnIndex(Constants.KEY_ID)),
+                        cursor.getString(cursor.getColumnIndex(Constants.KEY_TITLE)),
+                        cursor.getString(cursor.getColumnIndex(Constants.KEY_DESCRIPTION)),
+                        new LatLng(cursor.getDouble(cursor.getColumnIndex(Constants.KEY_LAT)), cursor.getDouble(cursor.getColumnIndex(Constants.KEY_LNG))),
+                        drawables
+                );
+                pois.add(poi);
+            }
+        }
+
+        return pois;
     }
 }

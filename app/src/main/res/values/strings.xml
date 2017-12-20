@@ -15,4 +15,6 @@
     <string name="not_save_exit_detected_description">Wilt u de vorige sessie inladen?</string>
     <string name="not_save_exit_detected">Vorige sessie niet veilig afgesloten</string>
     <string name="error_key">Er is iets fout gegaan</string>
+    <string name="colorblind">Kleurenblindheid</string>
+    <string name="language">Taal</string>
 </resources>
