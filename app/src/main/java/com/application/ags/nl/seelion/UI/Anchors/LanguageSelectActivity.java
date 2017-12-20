@@ -1,7 +1,9 @@
 package com.application.ags.nl.seelion.UI.Anchors;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -17,13 +19,10 @@ import android.widget.Spinner;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-import com.application.ags.nl.seelion.Data.BlindWallsDataGet;
-import com.application.ags.nl.seelion.Data.HistorKmDataGet;
+import com.application.ags.nl.seelion.Data.Constants;
 import com.application.ags.nl.seelion.Data.SqlConnect;
-import com.application.ags.nl.seelion.Logic.Map;
-import com.application.ags.nl.seelion.Logic.RouteCalculation;
-import com.application.ags.nl.seelion.Logic.SqlRequest;
 import com.application.ags.nl.seelion.R;
+import com.application.ags.nl.seelion.UI.popups.Error;
 
 import java.util.Locale;
 
@@ -53,28 +52,54 @@ public class LanguageSelectActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-            languageSpinner = findViewById(R.id.language_select_activty_select_language_comboBox);
-            String[] spinnerArray = new String[]{"english", "nederlands"};
-            ArrayAdapter<String> spinnerApdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
-            languageSpinner.setAdapter(spinnerApdapter);
+
+        SharedPreferences settings = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, MODE_PRIVATE);
+        boolean saveExit = settings.getBoolean("Save exit", true);
+        if (!saveExit){
+            AlertDialog.Builder builder = Error.generateError(this, getString(R.string.not_save_exit_detected), getString(R.string.not_save_exit_detected_description));
+            builder.setNegativeButton(getString(R.string.yes), (dialogInterface, i) -> {
+                String currentRoute = settings.getString(Constants.CURRENT_ROUTE, null);
+                Intent intent = new Intent(getApplicationContext(), RouteActivity.class);
+                intent.putExtra("MAP", currentRoute);
+                startActivity(intent);
+            });
+            builder.setPositiveButton(getString(R.string.no), (dialogInterface, i) -> {
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean("Save exit", true);
+                editor.commit();
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+        }
+
+        languageSpinner = findViewById(R.id.language_select_activty_select_language_comboBox);
+        String[] spinnerArray = new String[]{"English", "Nederlands"};
+        ArrayAdapter<String> spinnerApdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
+        languageSpinner.setAdapter(spinnerApdapter);
+
+        if (settings.getString("Language", "en").equals("en")){
+            languageSpinner.setSelection(0);
+        }else{
+            languageSpinner.setSelection(1);
+        }
+
         languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String language = languageSpinner.getItemAtPosition(i).toString();
                 if (currentLanguage != language) {
                     switch (language) {
-                        case "nederlands":
+                        case "Nederlands":
                             currentLanguage = "nl";
                             break;
-                        case "english":
+                        case "English":
                             currentLanguage = "en";
                             break;
                     }
                 }
             }
-
-
-
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -83,13 +108,14 @@ public class LanguageSelectActivity extends AppCompatActivity {
         });
 
         selectButton = findViewById(R.id.language_activty_select_button);
-        selectButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setLocale(currentLanguage);
-                Intent i  = new Intent(getApplicationContext(), RouteSelectActivity.class);
-                startActivity(i);
-            }
+        selectButton.setOnClickListener(view -> {
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString("Language", currentLanguage);
+            editor.commit();
+
+            setLocale(currentLanguage);
+            Intent i  = new Intent(getApplicationContext(), RouteSelectActivity.class);
+            startActivity(i);
         });
     }
 

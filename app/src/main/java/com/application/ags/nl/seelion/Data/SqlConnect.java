@@ -106,7 +106,7 @@ public class SqlConnect extends SQLiteOpenHelper{
         SQLiteDatabase database = this.getWritableDatabase();
         database.insert(Constants.BLIND_WALLS_TABLE_NAME, null, values);
 
-        Log.d(TAG,"addBlindWall: inserted " + poi.toString());
+        Log.d(TAG,"addBlindWall: inserted " + poi.getTitle());
     }
 
     public void addHistorKM(PointOfInterest poi)
@@ -122,7 +122,7 @@ public class SqlConnect extends SQLiteOpenHelper{
         SQLiteDatabase database = getWritableDatabase();
         database.insert(Constants.HISTOR_KM_TABLE_NAME, null, values);
 
-        Log.d(TAG,"addHistorKM: inserted " + poi.toString());
+        Log.d(TAG,"addHistorKM: inserted " + poi.getTitle());
     }
 
     public void addWalkedRouteLocation(LatLng location){

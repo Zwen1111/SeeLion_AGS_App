@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -27,6 +28,7 @@ import com.application.ags.nl.seelion.Data.SqlConnect;
 import com.application.ags.nl.seelion.Hardware.Gps;
 import com.application.ags.nl.seelion.Logic.Map;
 import com.application.ags.nl.seelion.Logic.RouteCalculation;
+import com.application.ags.nl.seelion.Logic.SqlRequest;
 import com.application.ags.nl.seelion.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,7 +39,6 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.maps.android.PolyUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -156,6 +157,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         routeCalculation = new RouteCalculation(map, new LatLng(location.getLatitude(), location.getLongitude()),onSuccess);
 
+        SharedPreferences settings = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+
+        if (!settings.getBoolean("Save exit", true)){
+            List<LatLng> walkedLocations = new SqlRequest().getWalkedLocations();
+            PolylineOptions options = new PolylineOptions()
+                    .width(3)
+                    .color(Color.BLUE);
+            for (int i = 1; i < walkedLocations.size(); i++) {
+                List<LatLng> leg = new ArrayList<>(2);
+                leg.add(walkedLocations.get(i-1));
+                leg.add(walkedLocations.get(i));
+                options.addAll(leg);
+            }
+            getActivity().runOnUiThread(() -> mMap.addPolyline(options));
+        }
+
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
@@ -177,8 +195,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                     walked = new ArrayList<>();
                     walked.add(lastLocation);
                 }
+                if (routeActivity.isDone()){
+                    editor.putBoolean("Save exit", true);
+                    editor.commit();
+                }
             }
         }, 3000, 3000);
+
+        editor.putBoolean("Save exit", false);
+        editor.commit();
     }
 
     @Override

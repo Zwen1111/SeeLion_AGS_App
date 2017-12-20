@@ -170,6 +170,26 @@ public class SqlRequest {
         return pois;
     }
 
+    public List<LatLng> getWalkedLocations(){
+        SQLiteDatabase db = sqlConnect.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + Constants.WALKED_ROUTE_TABLE_NAME, null);
+
+        List<LatLng> walkedLocations = new ArrayList<>();
+
+        if (cursor.moveToFirst()){
+            while (cursor.moveToNext()){
+                LatLng location = new LatLng(
+                        cursor.getDouble(cursor.getColumnIndex(Constants.KEY_LAT)),
+                        cursor.getDouble(cursor.getColumnIndex(Constants.KEY_LNG))
+                );
+                walkedLocations.add(location);
+            }
+        }
+
+        return walkedLocations;
+    }
+
     public boolean isEmtpy(){
         SQLiteDatabase db = sqlConnect.getReadableDatabase();
 
@@ -192,5 +212,17 @@ public class SqlRequest {
         }else{
             return false;
         }
+    }
+
+    public void clearWalkedLocations(){
+        SQLiteDatabase db = sqlConnect.getWritableDatabase();
+
+        db.rawQuery("DELETE FROM " + Constants.WALKED_ROUTE_TABLE_NAME, null);
+    }
+
+    public void clearVisitedPois(){
+        SQLiteDatabase db = sqlConnect.getWritableDatabase();
+
+        db.rawQuery("DELETE FROM " + Constants.VISITED_POI_TABLE_NAME, null);
     }
 }

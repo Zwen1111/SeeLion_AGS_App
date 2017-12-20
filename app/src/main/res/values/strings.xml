@@ -12,4 +12,6 @@
     <string name="continue_button_language_activity">Ga verder</string>
     <string name="select_language">Selecteer taal</string>
     <string name="detailfragment_toast">U heeft nog geen point of interest bezocht.</string>
+    <string name="not_save_exit_detected_description">Wilt u de vorige sessie inladen?</string>
+    <string name="not_save_exit_detected">Vorige sessie niet veilig afgesloten</string>
 </resources>
