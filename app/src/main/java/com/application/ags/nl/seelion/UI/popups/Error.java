@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
+import com.application.ags.nl.seelion.Hardware.Vibration;
 import com.application.ags.nl.seelion.R;
 
 /**
@@ -16,6 +17,7 @@ public class Error {
         AlertDialog.Builder builer = new AlertDialog.Builder(context);
         builer.setMessage(message);
         builer.setTitle(title);
+        new Vibration(context);
         return builer;
     }
 }
