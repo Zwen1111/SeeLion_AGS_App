@@ -4,10 +4,12 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.application.ags.nl.seelion.Data.Constants;
 import com.application.ags.nl.seelion.Data.PointOfInterest;
 import com.application.ags.nl.seelion.Hardware.Notification;
+import com.application.ags.nl.seelion.R;
 import com.application.ags.nl.seelion.UI.Anchors.RouteActivity;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
@@ -27,7 +29,6 @@ public class GeofenceTransitionIntentService extends IntentService {
 
     }
 
-    //todo verander string name naar interface
     public GeofenceTransitionIntentService(RouteActivity routeActivity) {
         super("GEOFENCE");
         this.routeActivity = routeActivity;
@@ -37,7 +38,7 @@ public class GeofenceTransitionIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
         if (geofencingEvent.hasError()) {
-            //Todo Error handling
+            Toast.makeText(routeActivity.getApplicationContext(), R.string.error_key, Toast.LENGTH_LONG).show();
             return;
         }
 

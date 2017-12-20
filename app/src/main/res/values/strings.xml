@@ -12,4 +12,5 @@
     <string name="continue_button_language_activity">Ga verder</string>
     <string name="select_language">Selecteer taal</string>
     <string name="detailfragment_toast">U heeft nog geen point of interest bezocht.</string>
+    <string name="error_key">Er is iets fout gegaan</string>
 </resources>

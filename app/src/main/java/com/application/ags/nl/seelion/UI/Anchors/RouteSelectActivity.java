@@ -32,7 +32,7 @@ public class RouteSelectActivity extends AppCompatActivity {
         String[] spinnerArray = new String[]{Constants.BlindWalls, Constants.HistorKm};
         ArrayAdapter<String> spinnerApdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
         routeSpinner.setAdapter(spinnerApdapter);
-
+        
         currentRoute = Constants.BlindWalls;
 
         confirmButton = findViewById(R.id.confirm_Button);
