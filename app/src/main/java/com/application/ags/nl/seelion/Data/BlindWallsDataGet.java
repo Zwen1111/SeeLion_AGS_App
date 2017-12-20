@@ -42,7 +42,7 @@ public class BlindWallsDataGet implements IRoute {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, onSuccess, onError);
 
         requestQueue.add(jsonObjectRequest);
-        //requestQueue.start();
+        requestQueue.start();
     }
 
     @Override

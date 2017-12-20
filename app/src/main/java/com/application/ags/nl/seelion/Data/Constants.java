@@ -13,7 +13,7 @@ public class Constants
     public static final String BlindWalls = "BlindWalls";
     public static final String HistorKm = "HistorKm";
 
-    public static final int DB_VERSION = 13;
+    public static final int DB_VERSION = 15;
     public static final String DB_NAME = "LocationAwareDB";
 
     public static final String SHARED_PREFERENCES_NAME = "SeeLionSharedPreferences";

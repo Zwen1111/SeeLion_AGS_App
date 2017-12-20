@@ -42,6 +42,7 @@ public class Gps implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient
 
     public Gps(RouteActivity routeActivity, Map map, Context context) {
         this.map = map;
+        this.routeActivity = routeActivity;
         this.context = context;
 
         geofenceList = new ArrayList<>();
@@ -55,8 +56,6 @@ public class Gps implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient
         if (!googleApiClient.isConnecting() || !googleApiClient.isConnected()) {
             googleApiClient.connect();
         }
-
-
     }
 
     private void makeGeofences(List<PointOfInterest> pointOfInterests) {

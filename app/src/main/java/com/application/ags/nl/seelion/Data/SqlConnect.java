@@ -88,6 +88,8 @@ public class SqlConnect extends SQLiteOpenHelper{
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + Constants.BLIND_WALLS_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + Constants.HISTOR_KM_TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + Constants.WALKED_ROUTE_TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + Constants.VISITED_POI_TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 

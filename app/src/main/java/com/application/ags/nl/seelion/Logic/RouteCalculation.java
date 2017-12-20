@@ -101,24 +101,6 @@ public class RouteCalculation {
 
             counter++;
         }
-
-//        for (int i = 1; i < pois.size(); i++) {
-//            LatLng origin = pois.get(i-1).getLocation();
-//            LatLng dest = pois.get(i).getLocation();
-//
-//            String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
-//
-//            String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
-//
-//            String trafficMode = "mode=walking";
-//
-//            String parameters = str_origin + "&" + str_dest + "&" + trafficMode;
-//
-//            String output = "json";
-//
-//            String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=AIzaSyCatWPTi84F26w6BYiUlUJ6sR9Tkv9VyXw";
-//            urls.add(url);
-//        }
         return urls;
     }
 
