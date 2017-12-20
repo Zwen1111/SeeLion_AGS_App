@@ -18,4 +18,5 @@
     <string name="not_save_exit_detected">Previous session not closed securely</string>
     <string name="colorblind">Colorblind</string>
     <string name="language">Language</string>
+    <string name="no_description">Description not available</string>
 </resources>

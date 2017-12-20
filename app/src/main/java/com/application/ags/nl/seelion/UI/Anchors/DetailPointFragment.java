@@ -56,7 +56,13 @@ public class DetailPointFragment extends Fragment {
                     imageViewPOI.setImageDrawable(d);
                 }
             }
-            textViewPOI.setText(pointOfInterest.getDescription());
+
+            String description = pointOfInterest.getDescription();
+            if (description.length() > 0) {
+                textViewPOI.setText(description);
+            }else{
+                textViewPOI.setText(getString(R.string.no_description));
+            }
         }
         return view;
     }

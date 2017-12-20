@@ -17,4 +17,5 @@
     <string name="error_key">Er is iets fout gegaan</string>
     <string name="colorblind">Kleurenblindheid</string>
     <string name="language">Taal</string>
+    <string name="no_description">Geen beschrijving beschikbaar</string>
 </resources>
