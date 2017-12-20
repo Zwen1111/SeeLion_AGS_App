@@ -19,20 +19,18 @@ import java.util.List;
  */
 
 public class GeofenceTransitionIntentService extends IntentService {
-    private RouteActivity routeActivity;
 
-    //todo verander string name naar interface
-    private static String name;
+    private static RouteActivity routeActivity;
 
-    public GeofenceTransitionIntentService(RouteActivity routeActivity) {
+    public GeofenceTransitionIntentService() {
         super("GEOFENCE");
-        this.routeActivity = routeActivity;
+
     }
 
     //todo verander string name naar interface
-    public GeofenceTransitionIntentService(String name) {
+    public GeofenceTransitionIntentService(RouteActivity routeActivity) {
         super("GEOFENCE");
-        this.name = name;
+        this.routeActivity = routeActivity;
     }
 
     @Override
