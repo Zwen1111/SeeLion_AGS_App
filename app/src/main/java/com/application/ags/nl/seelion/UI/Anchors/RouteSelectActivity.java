@@ -35,6 +35,18 @@ public class RouteSelectActivity extends AppCompatActivity {
 
         currentRoute = Constants.BlindWalls;
 
+        routeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                currentRoute = spinnerArray[i];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         confirmButton = findViewById(R.id.confirm_Button);
         confirmButton.setOnClickListener(view -> {
             SharedPreferences settings = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, MODE_PRIVATE);
