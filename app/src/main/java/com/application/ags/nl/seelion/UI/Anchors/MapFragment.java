@@ -35,6 +35,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -150,7 +151,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         }
 
         for (PointOfInterest poi : map.getPois()) {
-            mMap.addMarker(new MarkerOptions().position(poi.getLocation()).title(poi.getTitle()));
+            if(!poi.isVisited()) {
+                mMap.addMarker(new MarkerOptions().position(poi.getLocation()).title(poi.getTitle()));
+            }
+            else
+            {
+                mMap.addMarker(new MarkerOptions().position(poi.getLocation()).title(poi.getTitle()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+            }
         }
 
         Location location = getLastKnownLocation();
