@@ -48,7 +48,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".UI.Anchors.RouteSelectActivity"></activity>
-        <activity android:name=".UI.Anchors.RouteActivity">
+        <activity
+            android:name=".UI.Anchors.RouteActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
     </application>
 

@@ -54,7 +54,6 @@ public class RouteActivity extends AppCompatActivity {
 
         switch (mapString) {
             case Constants.BlindWalls:
-                Log.i("test", "test");
                 map = Map.generateBlindWallsMap(this);
                 break;
             case Constants.HistorKm:
