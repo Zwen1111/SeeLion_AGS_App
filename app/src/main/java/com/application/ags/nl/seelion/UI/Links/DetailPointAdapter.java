@@ -19,6 +19,5 @@ public class DetailPointAdapter  {
 
     public DetailPointAdapter(DetailPointFragment detailPointFragment) {
         this.detailPointFragment = detailPointFragment;
-        //todo set text and image but it gives me an error
     }
 }

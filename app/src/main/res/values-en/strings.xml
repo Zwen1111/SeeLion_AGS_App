@@ -13,6 +13,7 @@
     <string name="exit_route_description">Are you sure you want to exit the route?</string>
     <string name="title_activity_route">Map</string>
     <string name="detailfragment_toast">U haven\'t visited a point of interest yet.</string>
+    <string name="error_key">Something went wrong</string>
     <string name="not_save_exit_detected_description">Do you want to load the previous session?</string>
     <string name="not_save_exit_detected">Previous session not closed securely</string>
 </resources>

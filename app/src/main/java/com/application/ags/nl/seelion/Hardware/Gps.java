@@ -7,11 +7,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.application.ags.nl.seelion.Data.Constants;
 import com.application.ags.nl.seelion.Data.PointOfInterest;
 import com.application.ags.nl.seelion.Logic.GeofenceTransitionIntentService;
 import com.application.ags.nl.seelion.Logic.Map;
+import com.application.ags.nl.seelion.R;
 import com.application.ags.nl.seelion.UI.Anchors.RouteActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -72,8 +74,8 @@ public class Gps implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient
                     .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT)
                     .build());
         }
-        Log.i("List", "" + geofenceList.size());
-        addGeofences();
+        if (geofenceList.size() > 0) addGeofences();
+        else Toast.makeText(context, R.string.error_key, Toast.LENGTH_LONG).show();
     }
 
     private void addGeofences() {
@@ -81,13 +83,12 @@ public class Gps implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient
             return;
         }
         try {
-            //geofencingClient.addGeofences(getGeofenicingRequest(), getGeofencePendingIntent());
            LocationServices.GeofencingApi.addGeofences(
                     googleApiClient,
                    getGeofenicingRequest(),
                    getGeofencePendingIntent()).setResultCallback(this);
         } catch (SecurityException securityException) {
-            //Todo Error handling
+            Toast.makeText(routeActivity.getApplicationContext(), R.string.error_key, Toast.LENGTH_LONG);
         }
     }
 
