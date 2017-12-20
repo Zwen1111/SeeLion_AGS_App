@@ -15,6 +15,8 @@ import com.application.ags.nl.seelion.Data.PointOfInterest;
 import com.application.ags.nl.seelion.R;
 import com.application.ags.nl.seelion.UI.Links.DetailPointAdapter;
 
+import java.util.List;
+
 /**
  * Created by zwen1 on 12/10/2017.
  */
@@ -47,9 +49,12 @@ public class DetailPointFragment extends Fragment {
         detailPointAdapter = new DetailPointAdapter(this);
 
         if (pointOfInterest != null){
-            Drawable d = pointOfInterest.getImageDrawables(getActivity()).get(0);
-            if (d != null) {
-                imageViewPOI.setImageDrawable(d);
+            List<Drawable> drawableList = pointOfInterest.getImageDrawables(getActivity());
+            if (drawableList.size() > 0) {
+                Drawable d = drawableList.get(0);
+                if (d != null) {
+                    imageViewPOI.setImageDrawable(d);
+                }
             }
             textViewPOI.setText(pointOfInterest.getDescription());
         }

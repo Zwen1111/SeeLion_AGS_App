@@ -6,10 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.application.ags.nl.seelion.UI.Anchors.DetailPointFragment">
 
-
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <ImageView
             android:id="@+id/imageView_poi_info"
             android:layout_width="0dp"
@@ -21,14 +17,19 @@
 
         <TextView
             android:id="@+id/textView_poi_info"
-            android:layout_width="350dp"
-            android:layout_height="282dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
             android:maxLines="-1"
             android:scrollbars="vertical"
-            android:text="default value"
+            android:text="@@string/language"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView_poi_info" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView_poi_info"
+            tools:text="@string/language" />
 
 </android.support.constraint.ConstraintLayout>
