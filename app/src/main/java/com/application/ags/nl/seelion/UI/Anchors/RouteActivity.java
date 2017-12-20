@@ -126,6 +126,8 @@ public class RouteActivity extends AppCompatActivity {
         if (counter == map.getPois().size()){
             done = true;
         }
+
+        mapFragment.changeMarker(currentPOI);
     }
 
     public boolean isDone() {

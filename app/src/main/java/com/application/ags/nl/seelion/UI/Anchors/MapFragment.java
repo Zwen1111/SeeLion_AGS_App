@@ -35,8 +35,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -74,10 +76,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     private List<LatLng> walked;
 
+    private List<Marker> markers;
+
     public MapFragment(RouteActivity routeActivity, Map map) {
         this.map = map;
         this.routeActivity = routeActivity;
         walked = new ArrayList<>();
+        markers = new ArrayList<>();
     }
 
     @Override
@@ -151,7 +156,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         }
 
         for (PointOfInterest poi : map.getPois()) {
-            mMap.addMarker(new MarkerOptions().position(poi.getLocation()).title(poi.getTitle()));
+            Marker marker = mMap.addMarker(new MarkerOptions().position(poi.getLocation()).title(poi.getTitle()));
+            markers.add(marker);
         }
 
         Location location = getLastKnownLocation();
@@ -331,5 +337,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             }
         }
         return bestLocation;
+    }
+
+    public void changeMarker(PointOfInterest currentPOI) {
+        for (Marker marker : markers) {
+            if (marker.getTitle().equals(currentPOI.getTitle())){
+                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+            }
+        }
     }
 }
