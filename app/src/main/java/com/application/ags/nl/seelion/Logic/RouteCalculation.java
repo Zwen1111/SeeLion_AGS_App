@@ -54,7 +54,7 @@ public class RouteCalculation {
         List<List<PointOfInterest>> subLists = new ArrayList<>();
 
         while (pois.size() > 23){
-            List<PointOfInterest> subList = pois.subList(0,22);
+            List<PointOfInterest> subList = pois.subList(0,23);
             subLists.add(subList);
             pois = pois.subList(22, pois.size()-1);
         }
@@ -82,7 +82,12 @@ public class RouteCalculation {
 
             String str_waypoints = "waypoints=optimize:true|";
 
-            for (int j = 1; j < subList.size()-1; j++) {
+            int j = 0;
+            if (counter != 0){
+                j = 1;
+            }
+
+            for (j = j; j < subList.size()-1; j++) {
                 PointOfInterest poi = subList.get(j);
                 LatLng stopover = poi.getLocation();
                 if (j != subList.size()-2) {

@@ -58,7 +58,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private MapView mapView;
     private GoogleMap mMap;
 
-    private PolylineOptions polylineOptions = new PolylineOptions().width(3).color(Color.RED);
+    private PolylineOptions polylineOptions;
 
     private RouteCalculation routeCalculation;
 
@@ -83,6 +83,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        locationManager = (LocationManager)getActivity().getApplicationContext().getSystemService(LOCATION_SERVICE);
         gps = new Gps(routeActivity, map, getActivity().getApplicationContext());
 
         sensorService = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
@@ -155,7 +156,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         Location location = getLastKnownLocation();
 
-        routeCalculation = new RouteCalculation(map, new LatLng(location.getLatitude(), location.getLongitude()),onSuccess);
+        polylineOptions = new PolylineOptions().width(3).color(Color.RED);
+        routeCalculation = new RouteCalculation(map, new LatLng(location.getLatitude(), location.getLongitude()), onSuccess);
+
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(new LatLng(location.getLatitude(), location.getLongitude()))
+                .zoom(17)
+                .bearing(degree)
+                .tilt(45)
+                .build();
+
+        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         SharedPreferences settings = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
@@ -301,7 +312,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     }
 
     public Location getLastKnownLocation() {
-        locationManager = (LocationManager)getActivity().getApplicationContext().getSystemService(LOCATION_SERVICE);
         List<String> providers = locationManager.getProviders(true);
         Location bestLocation = null;
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

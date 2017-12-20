@@ -31,7 +31,7 @@ public class RouteActivity extends AppCompatActivity {
     public FrameLayout frameLayout;
     private RouteAdapter routeAdapter;
     private PointOfInterest currentPOI;
-    private Fragment mapFragment = null;
+    public MapFragment mapFragment = null;
     private boolean done;
 
     public enum Fragments {
@@ -60,6 +60,8 @@ public class RouteActivity extends AppCompatActivity {
                 map = Map.generateHistorKmMap(this);
                 break;
         }
+
+        currentPOI = map.getPois().get(0);
 
         routePointButton = findViewById(R.id.imageButton_routepoint);
         mapButton = findViewById(R.id.imageButton_map);
