@@ -72,7 +72,9 @@ public class RouteActivity extends AppCompatActivity {
                 break;
         }
 
-        currentPOI = map.getPois().get(0);
+        if (map.getPois().size() > 0) {
+            currentPOI = map.getPois().get(0);
+        }
 
         routePointButton = findViewById(R.id.imageButton_routepoint);
         mapButton = findViewById(R.id.imageButton_map);

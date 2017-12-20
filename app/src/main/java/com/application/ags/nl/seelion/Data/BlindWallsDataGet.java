@@ -1,5 +1,8 @@
 package com.application.ags.nl.seelion.Data;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 import com.android.volley.Request;
@@ -15,6 +18,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +49,7 @@ public class BlindWallsDataGet implements IRoute {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, onSuccess, onError);
 
         requestQueue.add(jsonObjectRequest);
-        requestQueue.start();
+        //requestQueue.start();
     }
 
     @Override
@@ -80,7 +87,16 @@ public class BlindWallsDataGet implements IRoute {
                 Double lng = Double.parseDouble(lngString);
                 LatLng latLng = new LatLng(lat, lng);
 
-                PointOfInterest pointOfInterest = new PointOfInterest(id, title, description, latLng, new ArrayList<>());
+                List<String> images = new ArrayList<>();
+
+                JSONArray attachments = object.getJSONArray("attachments");
+                for (int j = 0; j < attachments.length(); j++) {
+                    JSONObject attachment = attachments.getJSONObject(j);
+                    String url = attachment.getString("url");
+                    images.add(url);
+                }
+
+                PointOfInterest pointOfInterest = new PointOfInterest(id, title, description, latLng, images);
                 allPois.add(pointOfInterest);
                 sqlConnect.addBlindWall(pointOfInterest);
             }

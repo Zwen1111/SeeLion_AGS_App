@@ -24,19 +24,11 @@ public class Map implements Parcelable{
     private List<PointOfInterest> pois;
 
     public static Map generateHistorKmMap(Context context){
-        if (new SqlRequest().isEmtpy()) {
-            HistorKmDataGet historKmDataGet = new HistorKmDataGet(context);
-        }
-
         Map map = new Map(new SqlRequest().getHistorKmPois(context));
         return map;
     }
 
     public static Map generateBlindWallsMap(Context context){
-        if (new SqlRequest().isEmtpy()) {
-            BlindWallsDataGet blindWallsDataGet = new BlindWallsDataGet();
-        }
-
         Map map = new Map(new SqlRequest().getBlindWallsPois(context));
         return map;
     }

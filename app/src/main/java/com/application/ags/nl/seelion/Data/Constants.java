@@ -10,10 +10,10 @@ public class Constants
 
     public static final int PERMISSION_REQUEST_CODE = 698;
 
-    public static final String BlindWalls = "BlindWalls";
-    public static final String HistorKm = "HistorKm";
+    public static final String BlindWalls = "Blind Walls";
+    public static final String HistorKm = "Historische Kilometer";
 
-    public static final int DB_VERSION = 15;
+    public static final int DB_VERSION = 18;
     public static final String DB_NAME = "LocationAwareDB";
 
     public static final String SHARED_PREFERENCES_NAME = "SeeLionSharedPreferences";

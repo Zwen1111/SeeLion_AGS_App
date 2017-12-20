@@ -25,8 +25,11 @@ import android.widget.Spinner;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.application.ags.nl.seelion.Data.BlindWallsDataGet;
 import com.application.ags.nl.seelion.Data.Constants;
+import com.application.ags.nl.seelion.Data.HistorKmDataGet;
 import com.application.ags.nl.seelion.Data.SqlConnect;
+import com.application.ags.nl.seelion.Logic.SqlRequest;
 import com.application.ags.nl.seelion.R;
 import com.application.ags.nl.seelion.UI.popups.Error;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -61,6 +64,11 @@ public class LanguageSelectActivity extends AppCompatActivity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+
+        if (new SqlRequest().isEmtpy()) {
+            new HistorKmDataGet(this);
+            new BlindWallsDataGet();
         }
 
         SharedPreferences settings = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, MODE_PRIVATE);

@@ -67,7 +67,9 @@ public class HistorKmDataGet implements IRoute {
                 }
 
                 PointOfInterest poi = new PointOfInterest(id, title, "", latLng, drawables);
-                sqlConnect.addHistorKM(poi);
+                if (poi.getTitle().length() > 0) {
+                    sqlConnect.addHistorKM(poi);
+                }
             }
         } catch (IOException ex) {
             ex.printStackTrace();
