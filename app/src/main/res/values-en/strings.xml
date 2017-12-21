@@ -23,4 +23,8 @@
     <string name="cancel">Cancel</string>
     <string name="blindwalls_error">Something went wrong with downloading route</string>
     <string name="blindwalls_error_description">Downloading route failed</string>
+    <string name="pause_route">Pause route</string>
+    <string name="pause_route_description">Do you want to temporarily pause the route? To continue the route you just open the application.</string>
+    <string name="internet_connection_failed">No internet connection</string>
+    <string name="internet_connection_failed_description">Make sure you\'re connected to the internet.</string>
 </resources>

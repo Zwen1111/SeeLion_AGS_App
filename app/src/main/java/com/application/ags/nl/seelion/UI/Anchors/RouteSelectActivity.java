@@ -2,12 +2,15 @@ package com.application.ags.nl.seelion.UI.Anchors;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,6 +28,7 @@ import com.application.ags.nl.seelion.Data.Constants;
 import com.application.ags.nl.seelion.Logic.Map;
 import com.application.ags.nl.seelion.Logic.Reset;
 import com.application.ags.nl.seelion.R;
+import com.application.ags.nl.seelion.UI.popups.Error;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
 import java.util.Locale;
@@ -61,14 +65,34 @@ public class RouteSelectActivity extends AppCompatActivity {
 
         confirmButton = findViewById(R.id.confirm_Button);
         confirmButton.setOnClickListener(view -> {
-            SharedPreferences settings = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, MODE_PRIVATE);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putString(Constants.CURRENT_ROUTE, currentRoute);
-            editor.commit();
+            boolean connected = false;
+            ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+            if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                    connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+                //we are connected to a network
+                connected = true;
+            }
+            else
+                connected = false;
+            if (connected) {
+                SharedPreferences settings = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, MODE_PRIVATE);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString(Constants.CURRENT_ROUTE, currentRoute);
+                editor.commit();
 
-            Intent intent = new Intent(getApplicationContext(), RouteActivity.class);
-            intent.putExtra("MAP", currentRoute);
-            startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), RouteActivity.class);
+                intent.putExtra("MAP", currentRoute);
+                startActivity(intent);
+            }else{
+                AlertDialog.Builder builder = Error.generateError(this, getString(R.string.internet_connection_failed), getString(R.string.internet_connection_failed_description));
+                builder.setNeutralButton(getString(R.string.ok), (dialogInterface, i) -> {
+
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.show();
+            }
         });
     }
 

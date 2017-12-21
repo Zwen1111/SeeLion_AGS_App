@@ -2,8 +2,10 @@ package com.application.ags.nl.seelion.UI.Anchors;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -30,6 +32,7 @@ import com.application.ags.nl.seelion.Logic.Map;
 import com.application.ags.nl.seelion.Logic.RouteCalculation;
 import com.application.ags.nl.seelion.Logic.SqlRequest;
 import com.application.ags.nl.seelion.R;
+import com.application.ags.nl.seelion.UI.popups.Error;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -73,16 +76,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private LocationManager locationManager;
 
     private int degree;
-
     private List<LatLng> walked;
-
     private List<Marker> markers;
+    private List<List<LatLng>> lines;
+
+    private boolean offRoad;
 
     public MapFragment(RouteActivity routeActivity, Map map) {
         this.map = map;
         this.routeActivity = routeActivity;
         walked = new ArrayList<>();
         markers = new ArrayList<>();
+        offRoad = false;
     }
 
     @Override
@@ -218,6 +223,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                     walked = new ArrayList<>();
                     walked.add(lastLocation);
                 }
+                offRoad();
                 if (routeActivity.isDone()){
                     editor.putBoolean("Save exit", true);
                     editor.commit();
@@ -255,7 +261,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         try {
             JSONArray jRoutes = response.getJSONArray("routes");
 
-            List<List<LatLng>> lines = new ArrayList<>();
+            lines = new ArrayList<>();
 
             for (int i = 0; i < jRoutes.length(); i++) {
                 JSONArray jLegs = jRoutes.getJSONObject(i).getJSONArray("legs");
@@ -280,9 +286,51 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         }
     };
 
+    public void offRoad(){
+        Location location = getLastKnownLocation();
+        float result = 0;
+        for (List<LatLng> line : lines) {
+            for (LatLng leg : line) {
+                float[] results = new float[1];
+                Location.distanceBetween(location.getLatitude(), location.getLongitude(), leg.latitude, leg.longitude, results);
+                float tempResult = results[0];
+                if (result == 0){
+                    result = tempResult;
+                }
+                if (tempResult <= result) {
+                    result = tempResult;
+                    Log.i("Result: ", String.valueOf(result));
+                    if (result > 20) {
+                        if (!offRoad) {
+                            offRoad = true;
+                            routeActivity.runOnUiThread(() -> {
+                                AlertDialog.Builder builder = Error.generateError(routeActivity, getString(R.string.pause_route), getString(R.string.pause_route_description));
+                                builder.setNegativeButton(getString(R.string.yes), (dialogInterface, i) -> {
+                                    offRoad = true;
+                                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                                    intent.addCategory(Intent.CATEGORY_HOME);
+                                    startActivity(intent);
+                                });
+                                builder.setPositiveButton(getString(R.string.no), (dialogInterface, i) -> {
+                                    offRoad = false;
+                                });
+
+                                AlertDialog dialog = builder.create();
+                                dialog.setCanceledOnTouchOutside(false);
+                                dialog.show();
+                            });
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
+
+        offRoad = false;
 
         if (mMap != null && sensor != null){
             sensorService.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);

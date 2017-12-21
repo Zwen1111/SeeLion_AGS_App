@@ -22,4 +22,8 @@
     <string name="cancel">Annuleren</string>
     <string name="blindwalls_error_description">Er is iets fout gegaan bij het ophalen van de route</string>
     <string name="blindwalls_error">Route ophalen mislukt</string>
+    <string name="pause_route">Route pauzeren</string>
+    <string name="pause_route_description">Wilt u de route tijdelijk pauzeren? U kunt de route vervolgen door de app weer te openen.</string>
+    <string name="internet_connection_failed">Geen internetverbinding</string>
+    <string name="internet_connection_failed_description">Zorg ervoor dat u verbonden bent met het internet.</string>
 </resources>
