@@ -59,7 +59,18 @@ public class GeofenceTransitionIntentService extends IntentService {
                 poi = new SqlRequest().getHistorKmPOI(getApplicationContext(), id);
             }
 
-            routeActivity.setCurrentPOI(poi);
+            boolean alreadyVisited = false;
+
+            List<PointOfInterest> visitedPois = new SqlRequest().getVisitedPois();
+            for (PointOfInterest visitedPoi : visitedPois) {
+                if (visitedPoi.getTitle().equals(poi.getTitle())){
+                    alreadyVisited = true;
+                }
+            }
+
+            if (!alreadyVisited) {
+                routeActivity.setCurrentPOI(poi);
+            }
 
         //    Notification notification = new Notification();
 //            notification.notifyWithBoth();
