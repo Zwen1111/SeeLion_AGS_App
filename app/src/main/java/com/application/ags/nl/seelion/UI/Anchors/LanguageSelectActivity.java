@@ -2,7 +2,6 @@ package com.application.ags.nl.seelion.UI.Anchors;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -12,7 +11,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,6 +27,7 @@ import com.application.ags.nl.seelion.Data.BlindWallsDataGet;
 import com.application.ags.nl.seelion.Data.Constants;
 import com.application.ags.nl.seelion.Data.HistorKmDataGet;
 import com.application.ags.nl.seelion.Data.SqlConnect;
+import com.application.ags.nl.seelion.Logic.Reset;
 import com.application.ags.nl.seelion.Logic.SqlRequest;
 import com.application.ags.nl.seelion.R;
 import com.application.ags.nl.seelion.UI.popups.Error;
@@ -52,9 +51,6 @@ public class LanguageSelectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_language_select);
 
-//        Toolbar mToolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(mToolbar);
-
         sqlConnect = new SqlConnect(this);
         requestQueue = Volley.newRequestQueue(this);
         while(!arePermissionsGiven());
@@ -72,6 +68,7 @@ public class LanguageSelectActivity extends AppCompatActivity {
         }
 
         SharedPreferences settings = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
         boolean saveExit = settings.getBoolean("Save exit", true);
         if (!saveExit){
             AlertDialog.Builder builder = Error.generateError(this, getString(R.string.not_save_exit_detected), getString(R.string.not_save_exit_detected_description));
@@ -82,7 +79,6 @@ public class LanguageSelectActivity extends AppCompatActivity {
                 startActivity(intent);
             });
             builder.setPositiveButton(getString(R.string.no), (dialogInterface, i) -> {
-                SharedPreferences.Editor editor = settings.edit();
                 editor.putBoolean("Save exit", true);
                 editor.commit();
             });
@@ -91,6 +87,9 @@ public class LanguageSelectActivity extends AppCompatActivity {
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
         }
+
+        editor.putFloat("MARKER_COLOR", BitmapDescriptorFactory.HUE_GREEN);
+        editor.putInt("WALKED_ROUTE_COLOR", Color.GREEN);
 
         languageSpinner = findViewById(R.id.language_select_activty_select_language_comboBox);
         String[] spinnerArray = new String[]{"English", "Nederlands"};
@@ -127,7 +126,6 @@ public class LanguageSelectActivity extends AppCompatActivity {
 
         selectButton = findViewById(R.id.language_activty_select_button);
         selectButton.setOnClickListener(view -> {
-            SharedPreferences.Editor editor = settings.edit();
             editor.putString("Language", currentLanguage);
             editor.commit();
 
@@ -186,6 +184,9 @@ public class LanguageSelectActivity extends AppCompatActivity {
                 }
                 editor.commit();
                 item.setChecked(checked);
+                return true;
+            case R.id.reset:
+                new Reset(this);
                 return true;
 
             default:

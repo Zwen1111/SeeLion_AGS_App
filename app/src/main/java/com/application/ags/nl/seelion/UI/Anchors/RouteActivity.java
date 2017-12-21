@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.application.ags.nl.seelion.Data.Constants;
 import com.application.ags.nl.seelion.Data.PointOfInterest;
 import com.application.ags.nl.seelion.Logic.Map;
+import com.application.ags.nl.seelion.Logic.Reset;
 import com.application.ags.nl.seelion.Logic.SqlRequest;
 import com.application.ags.nl.seelion.R;
 import com.application.ags.nl.seelion.UI.Links.RouteAdapter;
@@ -219,6 +220,9 @@ public class RouteActivity extends AppCompatActivity {
                 editor.commit();
                 item.setChecked(checked);
                 mapFragment.setColorblind();
+                return true;
+            case R.id.reset:
+                new Reset(this);
                 return true;
 
             default:

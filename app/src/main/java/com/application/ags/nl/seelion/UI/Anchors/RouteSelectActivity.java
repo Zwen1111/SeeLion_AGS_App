@@ -23,6 +23,7 @@ import android.widget.Spinner;
 
 import com.application.ags.nl.seelion.Data.Constants;
 import com.application.ags.nl.seelion.Logic.Map;
+import com.application.ags.nl.seelion.Logic.Reset;
 import com.application.ags.nl.seelion.R;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
@@ -120,6 +121,9 @@ public class RouteSelectActivity extends AppCompatActivity {
                 }
                 editor.commit();
                 item.setChecked(checked);
+                return true;
+            case R.id.reset:
+                new Reset(this);
                 return true;
 
             default:

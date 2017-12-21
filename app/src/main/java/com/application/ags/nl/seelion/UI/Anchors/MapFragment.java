@@ -18,9 +18,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -173,7 +170,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(new LatLng(location.getLatitude(), location.getLongitude()))
-                .zoom(17)
+                .zoom(18)
                 .bearing(degree)
                 .tilt(45)
                 .build();
@@ -200,22 +197,24 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             @Override
             public void run() {
                 if (walked.size() > 1){
+                    List<LatLng> walkedLocations = walked;
+
                     int color = settings.getInt("WALKED_ROUTE_COLOR", -1);
 
                     PolylineOptions options = new PolylineOptions()
                             .width(3)
                             .color(color);
-                    for (int i = 1; i < walked.size(); i++) {
+                    for (int i = 1; i < walkedLocations.size(); i++) {
                         List<LatLng> leg = new ArrayList<>(2);
-                        leg.add(walked.get(i-1));
-                        leg.add(walked.get(i));
+                        leg.add(walkedLocations.get(i-1));
+                        leg.add(walkedLocations.get(i));
                         options.addAll(leg);
                     }
                     getActivity().runOnUiThread(() -> mMap.addPolyline(options));
 
-                    new SqlConnect(getActivity()).addWalkedRouteLocations(walked);
+                    new SqlConnect(getActivity()).addWalkedRouteLocations(walkedLocations);
 
-                    LatLng lastLocation = walked.get(walked.size()-1);
+                    LatLng lastLocation = walkedLocations.get(walkedLocations.size()-1);
                     walked = new ArrayList<>();
                     walked.add(lastLocation);
                 }
@@ -240,7 +239,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         Location location = getLastKnownLocation();
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(new LatLng(location.getLatitude(), location.getLongitude()))
-                .zoom(17)
+                .zoom(18)
                 .bearing(degree)
                 .tilt(45)
                 .build();
@@ -306,7 +305,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(new LatLng(location.getLatitude(), location.getLongitude()))
-                    .zoom(17)
+                    .zoom(18)
                     .bearing(degree)
                     .tilt(45)
                     .build();
@@ -315,7 +314,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
             this.degree = degree;
 
-            walked.add(new LatLng(location.getLatitude(), location.getLongitude()));
+            if (walked.size() > 0) {
+                LatLng lastLocation = walked.get(walked.size() - 1);
+
+                float[] results = new float[1];
+
+                Location.distanceBetween(lastLocation.latitude, lastLocation.longitude, location.getLatitude(), location.getLongitude(), results);
+
+                if (results[0] > 2){
+                    walked.add(new LatLng(location.getLatitude(), location.getLongitude()));
+                }
+            }else{
+                walked.add(new LatLng(location.getLatitude(), location.getLongitude()));
+            }
+
         }
     }
 

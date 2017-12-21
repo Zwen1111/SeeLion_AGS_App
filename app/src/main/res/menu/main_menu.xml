@@ -15,4 +15,10 @@
         app:showAsAction="never">
     </item>
 
+    <item
+        android:id="@+id/reset"
+        android:title="Reset"
+        app:showAsAction="never">
+    </item>
+
 </menu>
