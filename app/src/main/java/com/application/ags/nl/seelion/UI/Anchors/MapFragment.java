@@ -82,6 +82,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     private boolean offRoad;
 
+    public MapFragment(){}
+
     public MapFragment(RouteActivity routeActivity, Map map) {
         this.map = map;
         this.routeActivity = routeActivity;
