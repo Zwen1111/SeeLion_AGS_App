@@ -122,7 +122,7 @@ public class RouteActivity extends AppCompatActivity {
 
     public void setCurrentPOI(PointOfInterest currentPOI){
         this.currentPOI = currentPOI;
-        changeFragment(Fragments.DETAIL);
+        mapFragment.changeMarker(currentPOI);
         int counter = 0;
         for (int i = 0; i < map.getPois().size(); i++) {
             if (map.getPois().get(i) == currentPOI){
@@ -141,7 +141,7 @@ public class RouteActivity extends AppCompatActivity {
             done = true;
         }
 
-        mapFragment.changeMarker(currentPOI);
+        changeFragment(Fragments.DETAIL);
     }
 
     public boolean isDone() {

@@ -300,7 +300,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                 if (tempResult <= result) {
                     result = tempResult;
                     if (result > 20) {
-                        if (false && isAdded()) {
+                        if (!offRoad && isAdded()) {
                             offRoad = true;
                             routeActivity.runOnUiThread(() -> {
                                 AlertDialog.Builder builder = Error.generateError(routeActivity, getString(R.string.pause_route), getString(R.string.pause_route_description));
@@ -414,13 +414,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                 map.getPois().get(i).setVisited(true);
             }
         }
-        for (Marker marker : markers) {
-            if (marker.getTitle().equals(currentPOI.getTitle())){
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-                float color = sharedPreferences.getFloat("MARKER_COLOR", -1);
-                marker.setIcon(BitmapDescriptorFactory.defaultMarker(color));
+        getActivity().runOnUiThread(() -> {
+            for (Marker marker : markers) {
+                if (marker.getTitle().equals(currentPOI.getTitle())){
+                    marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                }
             }
-        }
+        });
     }
 
     public void setColorblind(){
