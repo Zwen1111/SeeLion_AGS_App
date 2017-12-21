@@ -1,5 +1,9 @@
 package com.application.ags.nl.seelion.Data;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -10,8 +14,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.application.ags.nl.seelion.R;
 import com.application.ags.nl.seelion.UI.Anchors.LanguageSelectActivity;
 import com.application.ags.nl.seelion.UI.Anchors.MapFragment;
+import com.application.ags.nl.seelion.UI.Anchors.RouteActivity;
+import com.application.ags.nl.seelion.UI.popups.Error;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -31,15 +38,20 @@ import java.util.List;
 
 public class BlindWallsDataGet implements IRoute {
 
+    private static final String url = "http://blindwalls.gallery/?json=get_posts";
+
     private List<PointOfInterest> allPois;
     private SqlConnect sqlConnect;
+    private Context context;
 
-    public BlindWallsDataGet(){
+    public BlindWallsDataGet(Context context){
+        this.context = context;
+
         sqlConnect = LanguageSelectActivity.sqlConnect;
 
         allPois = new ArrayList<>();
 
-        String url = "http://blindwalls.gallery/?json=get_posts";
+
         generateRoute(url);
     }
 
@@ -107,5 +119,17 @@ public class BlindWallsDataGet implements IRoute {
 
     public Response.ErrorListener onError = (VolleyError error) -> {
         System.out.println(error);
+
+        AlertDialog.Builder builder = Error.generateError(context, context.getString(R.string.blindwalls_error), context.getString(R.string.not_save_exit_detected_description));
+        builder.setNegativeButton(context.getString(R.string.retry), (dialogInterface, i) -> {
+            generateRoute(url);
+        });
+        builder.setPositiveButton(R.string.cancel, (dialogInterface, i) -> {
+            //Todo add action for cancel
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
     };
 }

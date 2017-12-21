@@ -19,4 +19,8 @@
     <string name="colorblind">Colorblind</string>
     <string name="language">Language</string>
     <string name="no_description">Description not available</string>
+    <string name="retry">Retry</string>
+    <string name="cancel">Cancel</string>
+    <string name="blindwalls_error">Something went wrong with downloading route</string>
+    <string name="blindwalls_error_description">Downloading route failed</string>
 </resources>

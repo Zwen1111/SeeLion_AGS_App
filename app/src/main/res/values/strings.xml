@@ -18,4 +18,8 @@
     <string name="colorblind">Kleurenblindheid</string>
     <string name="language">Taal</string>
     <string name="no_description">Geen beschrijving beschikbaar</string>
+    <string name="retry">Opnieuw proberen</string>
+    <string name="cancel">Annuleren</string>
+    <string name="blindwalls_error_description">Er is iets fout gegaan bij het ophalen van de route</string>
+    <string name="blindwalls_error">Route ophalen mislukt</string>
 </resources>

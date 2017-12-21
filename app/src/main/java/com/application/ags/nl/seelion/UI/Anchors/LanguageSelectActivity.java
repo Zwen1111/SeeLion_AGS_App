@@ -64,7 +64,7 @@ public class LanguageSelectActivity extends AppCompatActivity {
 
         if (new SqlRequest().isEmtpy()) {
             new HistorKmDataGet(this);
-            new BlindWallsDataGet();
+            new BlindWallsDataGet(this);
         }
 
         SharedPreferences settings = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, MODE_PRIVATE);
