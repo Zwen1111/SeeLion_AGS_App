@@ -63,7 +63,6 @@ public class Gps implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient
 
     private void makeGeofences(List<PointOfInterest> pointOfInterests) {
         for (PointOfInterest poi : pointOfInterests) {
-            Log.i("POI", String.valueOf(poi.getId()));
             geofenceList.add(new Geofence.Builder()
                     .setRequestId(String.valueOf(poi.getId()))
                     .setCircularRegion(
@@ -87,6 +86,7 @@ public class Gps implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient
                     googleApiClient,
                    getGeofenicingRequest(),
                    getGeofencePendingIntent()).setResultCallback(this);
+           Log.i("addGeofences", "succeded");
         } catch (SecurityException securityException) {
             Toast.makeText(routeActivity.getApplicationContext(), R.string.error_key, Toast.LENGTH_LONG);
         }

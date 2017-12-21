@@ -299,9 +299,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                 }
                 if (tempResult <= result) {
                     result = tempResult;
-                    Log.i("Result: ", String.valueOf(result));
                     if (result > 20) {
-                        if (!offRoad) {
+                        if (false && isAdded()) {
                             offRoad = true;
                             routeActivity.runOnUiThread(() -> {
                                 AlertDialog.Builder builder = Error.generateError(routeActivity, getString(R.string.pause_route), getString(R.string.pause_route_description));
@@ -387,11 +386,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     public Location getLastKnownLocation() {
         List<String> providers = locationManager.getProviders(true);
         Location bestLocation = null;
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, Constants.PERMISSION_REQUEST_CODE);
-        }
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.ACCESS_COARSE_LOCATION}, Constants.PERMISSION_REQUEST_CODE);
+        if (getActivity() != null) {
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constants.PERMISSION_REQUEST_CODE);
+            }
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, Constants.PERMISSION_REQUEST_CODE);
+            }
         }
         for (String provider : providers) {
             Location l = locationManager.getLastKnownLocation(provider);
@@ -403,6 +404,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                 bestLocation = l;
             }
         }
+
         return bestLocation;
     }
 
