@@ -75,6 +75,12 @@ public class DetailPointFragment extends Fragment {
                         imageViewPOI.setImageDrawable(d);
                     }
                 }
+            }else{
+                List<String> urls = pointOfInterest.getImages();
+                if (urls.size() > 0)
+                Picasso.with(getActivity())
+                        .load(urls.get(0))
+                        .into(imageViewPOI);
             }
 
             String description = pointOfInterest.getDescription();
@@ -85,25 +91,5 @@ public class DetailPointFragment extends Fragment {
             }
         }
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-        String currentRoute = sharedPreferences.getString(Constants.CURRENT_ROUTE, null);
-
-        if (currentRoute.equals(Constants.BlindWalls)) {
-            new Handler().postDelayed((Runnable) () -> {
-                List<String> urls = pointOfInterest.getImages();
-                if (urls.size() > 0) {
-                    Picasso.with(getActivity())
-                            .load(urls.get(0))
-                            .transform(new Transformation(imageViewPOI.getHeight()))
-                            .into(imageViewPOI);
-                }
-            }, 5L);
-        }
     }
 }

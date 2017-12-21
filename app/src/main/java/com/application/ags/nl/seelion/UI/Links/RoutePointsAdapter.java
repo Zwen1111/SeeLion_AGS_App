@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.application.ags.nl.seelion.Data.PointOfInterest;
 import com.application.ags.nl.seelion.Logic.Map;
 import com.application.ags.nl.seelion.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -44,8 +45,11 @@ public class RoutePointsAdapter extends RecyclerView.Adapter<RoutePointsAdapter.
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         Log.i("test", "ddddd");
         if (pois.get(position).getImages().size() > 0) {
-            Drawable d = pois.get(position).getImageDrawables(context).get(0);
-            holder.imageViewPOI.setImageDrawable(d);
+            List<String> urls = pois.get(position).getImages();
+            if (urls.size() > 0)
+                Picasso.with(context)
+                        .load(urls.get(0))
+                        .into(holder.imageViewPOI);
         }
         if (pois.get(position).isVisited()) {
             holder.imageViewState.setImageDrawable(context.getResources().getDrawable(R.drawable.check_icon));
