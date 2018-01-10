@@ -28,4 +28,5 @@
     <string name="internet_connection_failed_description">Zorg ervoor dat u verbonden bent met het internet.</string>
     <string name="permissions_denied">Permissies geweigerd</string>
     <string name="permissions_denied_description">De gevraagd permissies zijn geweigerd. Deze zijn benodigd om gebruik te kunnen maken van deze app. Wilt u deze alsnog accepteren?</string>
+    <string name="visited">Bezocht:</string>
 </resources>
