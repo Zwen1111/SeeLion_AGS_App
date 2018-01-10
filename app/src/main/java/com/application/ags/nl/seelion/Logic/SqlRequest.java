@@ -218,13 +218,13 @@ public class SqlRequest {
     public void clearWalkedLocations(){
         SQLiteDatabase db = sqlConnect.getWritableDatabase();
 
-        db.rawQuery("DELETE FROM " + Constants.WALKED_ROUTE_TABLE_NAME, null);
+        db.execSQL("DELETE FROM " + Constants.WALKED_ROUTE_TABLE_NAME);
     }
 
     public void clearVisitedPois(){
         SQLiteDatabase db = sqlConnect.getWritableDatabase();
 
-        db.rawQuery("DELETE FROM " + Constants.VISITED_POI_TABLE_NAME, null);
+        db.execSQL("DELETE FROM " + Constants.VISITED_POI_TABLE_NAME);
     }
 
     public List<PointOfInterest> getVisitedPois() {
