@@ -9,6 +9,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -53,14 +54,7 @@ public class LanguageSelectActivity extends AppCompatActivity {
 
         sqlConnect = new SqlConnect(this);
         requestQueue = Volley.newRequestQueue(this);
-        while(!arePermissionsGiven());
-        {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        askPermissions();
 
         if (new SqlRequest().isEmtpy()) {
             new HistorKmDataGet(this);
@@ -204,11 +198,10 @@ public class LanguageSelectActivity extends AppCompatActivity {
        res.updateConfiguration(conf, dm);
     }
 
-    private boolean arePermissionsGiven(){
+    private void askPermissions(){
         if(ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(getApplicationContext(),Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-            return true;
         }else {
             ActivityCompat.requestPermissions(this,
                     new String[]{
@@ -216,7 +209,29 @@ public class LanguageSelectActivity extends AppCompatActivity {
                             Manifest.permission.ACCESS_FINE_LOCATION,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     }, 42);
-            return false;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        boolean granted = true;
+        for (int result : grantResults) {
+            if (result != PackageManager.PERMISSION_GRANTED && granted){
+                granted = false;
             }
+        }
+        if (!granted){
+            AlertDialog.Builder builder = Error.generateError(this, getString(R.string.permissions_denied), getString(R.string.permissions_denied_description));
+            builder.setNegativeButton("Nee", (dialogInterface, i) -> {
+                System.exit(0);
+            });
+            builder.setPositiveButton("Ja", (dialogInterface, i) -> {
+                askPermissions();
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+        }
     }
 }

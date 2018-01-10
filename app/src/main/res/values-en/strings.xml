@@ -27,4 +27,6 @@
     <string name="pause_route_description">Do you want to temporarily pause the route? To continue the route you just open the application.</string>
     <string name="internet_connection_failed">No internet connection</string>
     <string name="internet_connection_failed_description">Make sure you\'re connected to the internet.</string>
+    <string name="permissions_denied">Permissions denied</string>
+    <string name="permissions_denied_description">De asked permissions were denied. These are required for using the app. Do you want to accept them?</string>
 </resources>
