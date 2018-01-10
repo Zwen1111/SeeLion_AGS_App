@@ -146,7 +146,7 @@ public class RouteActivity extends AppCompatActivity {
             done = true;
         }
 
-        changeFragment(Fragments.DETAIL);
+        routeAdapter.onClick(findViewById(R.id.imageButton_detail));
     }
 
     public boolean isDone() {

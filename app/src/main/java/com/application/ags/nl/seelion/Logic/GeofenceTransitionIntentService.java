@@ -62,6 +62,7 @@ public class GeofenceTransitionIntentService extends IntentService {
             boolean alreadyVisited = false;
 
             List<PointOfInterest> visitedPois = new SqlRequest().getVisitedPois();
+            Log.i("Visited POI's", visitedPois.toString());
             for (PointOfInterest visitedPoi : visitedPois) {
                 if (visitedPoi.getTitle().equals(poi.getTitle())){
                     alreadyVisited = true;
