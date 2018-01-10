@@ -3,11 +3,17 @@ package com.application.ags.nl.seelion.UI.Anchors;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.os.Build;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -22,6 +28,7 @@ import android.widget.Toast;
 
 import com.application.ags.nl.seelion.Data.Constants;
 import com.application.ags.nl.seelion.Data.PointOfInterest;
+import com.application.ags.nl.seelion.Hardware.Notification;
 import com.application.ags.nl.seelion.Logic.Map;
 import com.application.ags.nl.seelion.Logic.Reset;
 import com.application.ags.nl.seelion.Logic.SqlRequest;
@@ -85,6 +92,27 @@ public class RouteActivity extends AppCompatActivity {
         routeAdapter = new RouteAdapter(this);
 
         changeFragment(Fragments.MAP);
+    }
+
+    public void triggerNotification() {
+      NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+          NotificationChannel notificationChannel = new NotificationChannel("SEELION_ID", "My Notifications", NotificationManager.IMPORTANCE_DEFAULT);
+          notificationChannel.setDescription("Channels description");
+          notificationChannel.enableLights(true);
+          notificationChannel.setLightColor(Color.RED);
+          notificationManager.createNotificationChannel(notificationChannel);
+      }
+
+      NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "SEELION_ID")
+              .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+              .setSmallIcon(R.drawable.cast_ic_notification_small_icon)
+              .setColor(Color.RED)
+              .setContentTitle("SeeLion")
+              .setContentText(getString(R.string.notification_text));
+
+      notificationManager.notify(1, builder.build());
+
     }
 
     public void changeFragment(Fragments fragment) {

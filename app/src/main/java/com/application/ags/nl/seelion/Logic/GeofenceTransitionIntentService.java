@@ -75,6 +75,7 @@ public class GeofenceTransitionIntentService extends IntentService {
 
             if (!alreadyVisited) {
                 routeActivity.setCurrentPOI(poi);
+                routeActivity.triggerNotification();
                 new Vibration(routeActivity);
             }
 
