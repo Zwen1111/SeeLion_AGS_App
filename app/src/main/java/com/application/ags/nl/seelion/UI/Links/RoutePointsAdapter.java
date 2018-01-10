@@ -13,10 +13,12 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.application.ags.nl.seelion.Data.PointOfInterest;
 import com.application.ags.nl.seelion.Logic.Map;
 import com.application.ags.nl.seelion.R;
+import com.application.ags.nl.seelion.UI.Anchors.RouteActivity;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -31,11 +33,13 @@ public class RoutePointsAdapter extends RecyclerView.Adapter<RoutePointsAdapter.
     private Context context;
     private List<PointOfInterest> pois;
     private boolean isHistorKm;
+    private RouteActivity routeActivity;
 
-    public RoutePointsAdapter(Context context, Map map, boolean isHistorKm) {
+    public RoutePointsAdapter(RouteActivity routeActivity, Context context, Map map, boolean isHistorKm) {
         this.context = context;
         this.pois = map.getPois();
         this.isHistorKm = isHistorKm;
+        this.routeActivity = routeActivity;
     }
 
     @Override
@@ -72,6 +76,13 @@ public class RoutePointsAdapter extends RecyclerView.Adapter<RoutePointsAdapter.
             holder.imageViewState.setImageDrawable(context.getResources().getDrawable(R.drawable.uncheck_icon));
         }
         holder.textViewNamePOI.setText(pois.get(position).getTitle());
+
+        holder.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View v) {
+                routeActivity.setSelectedPOI(pois.get(position));
+            }
+        });
     }
 
     @Override
@@ -79,17 +90,35 @@ public class RoutePointsAdapter extends RecyclerView.Adapter<RoutePointsAdapter.
         return pois.size();
     }
 
-    class CustomViewHolder extends RecyclerView.ViewHolder{
+    public interface OnItemClickListener {
+        // note: here you would need some params, for instance the view
+        void onItemClick(View v);
+    }
+
+    class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         protected TextView textViewNamePOI;
         protected ImageView imageViewPOI;
         protected ImageView imageViewState;
+        private OnItemClickListener onItemClickListener;
 
         public CustomViewHolder(View view) {
             super(view);
             this.textViewNamePOI = view.findViewById(R.id.textView_name_poi);
             this.imageViewPOI = view.findViewById(R.id.imageView_image_poi);
             this.imageViewState = view.findViewById(R.id.imageView_state);
+            view.setOnClickListener(this);
+        }
+
+        public void setOnItemClickListener(OnItemClickListener l) {
+            this.onItemClickListener = l;
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (onItemClickListener != null){
+                onItemClickListener.onItemClick(view);
+            }
         }
     }
 }

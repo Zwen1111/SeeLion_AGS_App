@@ -107,7 +107,7 @@ public class RouteActivity extends AppCompatActivity {
                 if(settings.getString(Constants.CURRENT_ROUTE, "").equals(Constants.HistorKm)){
                     isHistorKm = true;
                 }
-                newFragment = new RoutePointsFragment(map, isHistorKm);
+                newFragment = new RoutePointsFragment(this, map, isHistorKm);
                 break;
         }
 
@@ -123,6 +123,10 @@ public class RouteActivity extends AppCompatActivity {
         transaction.replace(frameLayout.getId(), newFragment);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction.commit();
+    }
+
+    public void setSelectedPOI(PointOfInterest currentPOI){
+        this.currentPOI = currentPOI;
     }
 
     public void setCurrentPOI(PointOfInterest currentPOI){
