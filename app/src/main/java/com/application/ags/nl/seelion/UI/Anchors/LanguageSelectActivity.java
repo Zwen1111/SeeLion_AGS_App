@@ -28,6 +28,7 @@ import com.application.ags.nl.seelion.Data.BlindWallsDataGet;
 import com.application.ags.nl.seelion.Data.Constants;
 import com.application.ags.nl.seelion.Data.HistorKmDataGet;
 import com.application.ags.nl.seelion.Data.SqlConnect;
+import com.application.ags.nl.seelion.Hardware.Vibration;
 import com.application.ags.nl.seelion.Logic.Reset;
 import com.application.ags.nl.seelion.Logic.SqlRequest;
 import com.application.ags.nl.seelion.R;
@@ -35,6 +36,8 @@ import com.application.ags.nl.seelion.UI.popups.Error;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class LanguageSelectActivity extends AppCompatActivity {
 

@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.application.ags.nl.seelion.Data.Constants;
 import com.application.ags.nl.seelion.Data.PointOfInterest;
 import com.application.ags.nl.seelion.Hardware.Notification;
+import com.application.ags.nl.seelion.Hardware.Vibration;
 import com.application.ags.nl.seelion.R;
 import com.application.ags.nl.seelion.UI.Anchors.RouteActivity;
 import com.google.android.gms.location.Geofence;
@@ -74,6 +75,7 @@ public class GeofenceTransitionIntentService extends IntentService {
 
             if (!alreadyVisited) {
                 routeActivity.setCurrentPOI(poi);
+                new Vibration(routeActivity);
             }
 
             //Todo: Notification
