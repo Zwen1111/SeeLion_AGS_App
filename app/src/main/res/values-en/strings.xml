@@ -30,4 +30,5 @@
     <string name="permissions_denied">Permissions denied</string>
     <string name="permissions_denied_description">De asked permissions were denied. These are required for using the app. Do you want to accept them?</string>
     <string name="visited">Visited:</string>
+    <string name="notification_text">U bent bij een Point Of Interest.</string>
 </resources>

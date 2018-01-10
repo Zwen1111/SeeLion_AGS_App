@@ -69,5 +69,6 @@ public class Notification extends FragmentActivity {
         }
         notificationManager.notify(1, builder.build()); //Todo fix error here java.lang.NullPointerException: Attempt to invoke virtual method 'android.content.pm.ApplicationInfo android.content.Context.getApplicationInfo()' on a null object reference
     }
+
 }
 
