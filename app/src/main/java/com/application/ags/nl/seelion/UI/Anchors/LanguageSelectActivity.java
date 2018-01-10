@@ -75,6 +75,8 @@ public class LanguageSelectActivity extends AppCompatActivity {
             builder.setPositiveButton(getString(R.string.no), (dialogInterface, i) -> {
                 editor.putBoolean("Save exit", true);
                 editor.commit();
+                new SqlRequest().clearVisitedPois();
+                new SqlRequest().clearWalkedLocations();
             });
 
             AlertDialog dialog = builder.create();

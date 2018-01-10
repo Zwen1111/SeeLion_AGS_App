@@ -1,8 +1,11 @@
 package com.application.ags.nl.seelion.Logic;
 
 import android.app.IntentService;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -72,8 +75,7 @@ public class GeofenceTransitionIntentService extends IntentService {
                 routeActivity.setCurrentPOI(poi);
             }
 
-        //    Notification notification = new Notification();
-//            notification.notifyWithBoth();
+            //Todo: Notification
         }
 //        else if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT){
 //            SharedPreferences settings = getSharedPreferences("SeeLion", 0);
