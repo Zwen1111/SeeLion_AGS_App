@@ -45,6 +45,7 @@ public class RouteActivity extends AppCompatActivity {
     private PointOfInterest currentPOI;
     public MapFragment mapFragment = null;
     private boolean done;
+    private SharedPreferences settings;
 
     public enum Fragments {
         MAP, DETAIL, POINTS
@@ -57,7 +58,7 @@ public class RouteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route);
 
-        SharedPreferences settings = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, MODE_PRIVATE);
+        settings = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString("Current POI", null);
         editor.commit();
@@ -102,7 +103,11 @@ public class RouteActivity extends AppCompatActivity {
                 newFragment = new DetailPointFragment(currentPOI);
                 break;
             case POINTS:
-                newFragment = new RoutePointsFragment(map);
+                boolean isHistorKm = false;
+                if(settings.getString(Constants.CURRENT_ROUTE, "").equals(Constants.HistorKm)){
+                    isHistorKm = true;
+                }
+                newFragment = new RoutePointsFragment(map, isHistorKm);
                 break;
         }
 

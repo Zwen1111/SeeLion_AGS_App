@@ -23,9 +23,11 @@ public class RoutePointsFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private Map map;
+    private boolean isHistorKm;
 
-    public RoutePointsFragment(Map map){
+    public RoutePointsFragment(Map map, boolean isHistorKm){
         this.map = map;
+        this.isHistorKm = isHistorKm;
     }
 
     @Override
@@ -38,7 +40,7 @@ public class RoutePointsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_routepoint, container, false);
 
         recyclerView = view.findViewById(R.id.recycleView_poi);
-        recyclerView.setAdapter(new RoutePointsAdapter(getActivity(), map));
+        recyclerView.setAdapter(new RoutePointsAdapter(getActivity(), map, isHistorKm));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         return view;
     }

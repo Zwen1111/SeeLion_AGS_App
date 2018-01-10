@@ -1,7 +1,9 @@
 package com.application.ags.nl.seelion.UI.Links;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.DataSetObserver;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,6 +19,7 @@ import com.application.ags.nl.seelion.Logic.Map;
 import com.application.ags.nl.seelion.R;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -27,10 +30,12 @@ public class RoutePointsAdapter extends RecyclerView.Adapter<RoutePointsAdapter.
 
     private Context context;
     private List<PointOfInterest> pois;
+    private boolean isHistorKm;
 
-    public RoutePointsAdapter(Context context, Map map) {
+    public RoutePointsAdapter(Context context, Map map, boolean isHistorKm) {
         this.context = context;
         this.pois = map.getPois();
+        this.isHistorKm = isHistorKm;
     }
 
     @Override
@@ -46,10 +51,20 @@ public class RoutePointsAdapter extends RecyclerView.Adapter<RoutePointsAdapter.
         Log.i("test", "ddddd");
         if (pois.get(position).getImages().size() > 0) {
             List<String> urls = pois.get(position).getImages();
-            if (urls.size() > 0)
-                Picasso.with(context)
-                        .load(urls.get(0))
-                        .into(holder.imageViewPOI);
+
+            if (urls.size() > 0) {
+                if (isHistorKm) {
+                    try {
+                        holder.imageViewPOI.setImageBitmap(BitmapFactory.decodeStream(context.getAssets().open(urls.get(0))));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    Picasso.with(context)
+                            .load(urls.get(0))
+                            .into(holder.imageViewPOI);
+                }
+            }
         }
         if (pois.get(position).isVisited()) {
             holder.imageViewState.setImageDrawable(context.getResources().getDrawable(R.drawable.check_icon));
