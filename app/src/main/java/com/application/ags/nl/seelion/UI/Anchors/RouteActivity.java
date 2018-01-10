@@ -222,16 +222,19 @@ public class RouteActivity extends AppCompatActivity {
                 if (checked) {
                     editor.putFloat("MARKER_COLOR", BitmapDescriptorFactory.HUE_BLUE);
                     editor.putInt("WALKED_ROUTE_COLOR", Color.BLUE);
+                    editor.putInt("ROUTE_COLOR", Color.YELLOW);
                 }else {
                     editor.putFloat("MARKER_COLOR", BitmapDescriptorFactory.HUE_GREEN);
                     editor.putInt("WALKED_ROUTE_COLOR", Color.GREEN);
+                    editor.putInt("ROUTE_COLOR", Color.RED);
                 }
                 editor.commit();
                 item.setChecked(checked);
-                mapFragment.setColorblind();
+                mapFragment.redrawMap();
                 return true;
             case R.id.reset:
                 new Reset(this);
+                mapFragment.redrawMap();
                 return true;
 
             default:

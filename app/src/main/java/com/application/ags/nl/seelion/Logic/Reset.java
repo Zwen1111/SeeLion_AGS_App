@@ -24,6 +24,7 @@ public class Reset {
 
         editor.putFloat("MARKER_COLOR", BitmapDescriptorFactory.HUE_GREEN);
         editor.putInt("WALKED_ROUTE_COLOR", Color.GREEN);
+        editor.putInt("ROUTE_COLOR", Color.RED);
         editor.putBoolean("Save exit", true);
         editor.commit();
 

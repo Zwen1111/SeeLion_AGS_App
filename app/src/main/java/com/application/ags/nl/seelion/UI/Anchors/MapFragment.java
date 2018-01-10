@@ -172,7 +172,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         Location location = getLastKnownLocation();
 
-        polylineOptions = new PolylineOptions().width(3).color(Color.RED);
+        int color = settings.getInt("ROUTE_COLOR", -1);
+
+        polylineOptions = new PolylineOptions().width(3).color(color);
         routeCalculation = new RouteCalculation(map, new LatLng(location.getLatitude(), location.getLongitude()), onSuccess);
 
         CameraPosition cameraPosition = new CameraPosition.Builder()
@@ -433,7 +435,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         });
     }
 
-    public void setColorblind(){
+    public void redrawMap(){
         onMapReady(mMap);
     }
 }
