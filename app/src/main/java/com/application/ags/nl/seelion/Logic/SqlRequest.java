@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import com.application.ags.nl.seelion.Data.Constants;
 import com.application.ags.nl.seelion.Data.PointOfInterest;
@@ -105,7 +106,7 @@ public class SqlRequest {
         List<PointOfInterest> pois = new ArrayList<>();
 
         if (cursor.moveToFirst()){
-            while (cursor.moveToNext()){
+            do{
                 List<String> drawables = new ArrayList<>();
                 try {
                     String json = cursor.getString(cursor.getColumnIndex(Constants.KEY_IMAGES));
@@ -128,7 +129,7 @@ public class SqlRequest {
                         drawables
                 );
                 pois.add(poi);
-            }
+            }while (cursor.moveToNext());
         }
 
         return pois;
@@ -142,7 +143,7 @@ public class SqlRequest {
         List<PointOfInterest> pois = new ArrayList<>();
 
         if (cursor.moveToFirst()){
-            while (cursor.moveToNext()){
+            do {
                 List<String> drawables = new ArrayList<>();
                 try {
                     JSONArray array = new JSONArray(cursor.getString(cursor.getColumnIndex(Constants.KEY_IMAGES)));
@@ -164,7 +165,7 @@ public class SqlRequest {
                         drawables
                 );
                 pois.add(poi);
-            }
+            }while (cursor.moveToNext());
         }
 
         return pois;
@@ -178,13 +179,13 @@ public class SqlRequest {
         List<LatLng> walkedLocations = new ArrayList<>();
 
         if (cursor.moveToFirst()){
-            while (cursor.moveToNext()){
+            do {
                 LatLng location = new LatLng(
                         cursor.getDouble(cursor.getColumnIndex(Constants.KEY_LAT)),
                         cursor.getDouble(cursor.getColumnIndex(Constants.KEY_LNG))
                 );
                 walkedLocations.add(location);
-            }
+            }while(cursor.moveToNext());
         }
 
         return walkedLocations;
@@ -232,9 +233,8 @@ public class SqlRequest {
         Cursor cursor = db.rawQuery("SELECT * FROM " + Constants.VISITED_POI_TABLE_NAME, null);
 
         List<PointOfInterest> pois = new ArrayList<>();
-
-        if (cursor.moveToFirst()){
-            while (cursor.moveToNext()){
+        if (cursor.moveToFirst()) {
+            do {
                 List<String> drawables = new ArrayList<>();
                 try {
                     JSONArray array = new JSONArray(cursor.getString(cursor.getColumnIndex(Constants.KEY_IMAGES)));
@@ -256,7 +256,7 @@ public class SqlRequest {
                         drawables
                 );
                 pois.add(poi);
-            }
+            } while (cursor.moveToNext());
         }
 
         return pois;
