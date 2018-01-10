@@ -307,13 +307,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                             routeActivity.runOnUiThread(() -> {
                                 AlertDialog.Builder builder = Error.generateError(routeActivity, getString(R.string.pause_route), getString(R.string.pause_route_description));
                                 builder.setNegativeButton(getString(R.string.yes), (dialogInterface, i) -> {
-                                    offRoad = true;
+                                    offRoad = false;
                                     Intent intent = new Intent(Intent.ACTION_MAIN);
                                     intent.addCategory(Intent.CATEGORY_HOME);
                                     startActivity(intent);
                                 });
                                 builder.setPositiveButton(getString(R.string.no), (dialogInterface, i) -> {
-                                    offRoad = false;
+                                    offRoad = true;
+                                    Timer timer = new Timer();
+                                    timer.schedule(new TimerTask() {
+                                        @Override
+                                        public void run() {
+                                            offRoad = false;
+                                            timer.cancel();
+                                        }
+                                    }, 10000,1000);
                                 });
 
                                 AlertDialog dialog = builder.create();
