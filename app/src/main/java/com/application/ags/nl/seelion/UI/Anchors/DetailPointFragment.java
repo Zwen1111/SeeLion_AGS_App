@@ -39,6 +39,7 @@ import java.util.List;
 public class DetailPointFragment extends Fragment {
 
     public ImageView imageViewPOI;
+    public TextView textViewTitle;
     public TextView textViewPOI;
     private DetailPointAdapter detailPointAdapter;
     private PointOfInterest pointOfInterest;
@@ -56,6 +57,7 @@ public class DetailPointFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detailpoint, container, false);
         imageViewPOI = view.findViewById(R.id.imageView_poi_info);
+        textViewTitle = view.findViewById(R.id.fragment_detailpoint_poi_title);
         textViewPOI = view.findViewById(R.id.textView_poi_info);
 
         textViewPOI.setMovementMethod(new ScrollingMovementMethod());
@@ -67,6 +69,8 @@ public class DetailPointFragment extends Fragment {
 
 
         if (pointOfInterest != null) {
+            textViewTitle.setText(pointOfInterest.getTitle());
+
             if (currentRoute.equals(Constants.HistorKm)) {
                 List<Drawable> drawableList = pointOfInterest.getImageDrawables(getActivity());
                 if (drawableList.size() > 0) {
