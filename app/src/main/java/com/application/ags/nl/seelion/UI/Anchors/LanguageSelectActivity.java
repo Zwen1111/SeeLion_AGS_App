@@ -89,6 +89,7 @@ public class LanguageSelectActivity extends AppCompatActivity {
 
         editor.putFloat("MARKER_COLOR", BitmapDescriptorFactory.HUE_GREEN);
         editor.putInt("WALKED_ROUTE_COLOR", Color.GREEN);
+        editor.putInt("ROUTE_COLOR", Color.RED);
 
         languageSpinner = findViewById(R.id.language_select_activty_select_language_comboBox);
         String[] spinnerArray = new String[]{"English", "Nederlands"};
